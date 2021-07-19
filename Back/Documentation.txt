@@ -1,0 +1,74 @@
+*******************************
+** DCAudioVisuales Paquete 2 **
+*******************************
+
+-------------------------------------------------------------------------
+    AVISO!
+    Todo devuelve un json ordenado de esta forma:
+    {
+        error: 200,
+        message: "",
+        data: {}
+    }
+
+    error: Contiene el codigo de error que sucedió
+    message: Contiene el mensaje de error
+    data: contiene el objeto de la base de datos de la petición
+-------------------------------------------------------------------------
+
+Usuarios:
+    Registro [POST]:
+        - Datos necesarios:
+            > headers (Opcional):
+                authentication
+            > req.body:
+            nickUser, nameUser, emailUser, addressUser, phoneUser, passwordUser, rolUser(Opcional)
+        - Ruta:
+            localhost:3000/api/user/register
+        - Adicional:
+            !IMPORTAN
+            0) Al json de respuesta se le agrega una dato token donde retornará el token.
+            1) Al registrarte, inicia sesión automaticamente.
+            2) Un administrador puede agregar mas usuarios desde esta ruta, incluso dandole un rol 
+            diferente enviando su token de administrador, de forma automatica el backend revisa si
+            es administrador, y si es asi, verifica que haya enviado un nuevo campo "rolUser", si 
+            es así entonces integrar un usuario con el rol que hayas puesto.
+            
+    Iniciar Sesión [POST]:
+        - Datos necesarios:
+            nickUser o emailUser y passwordUser
+            (getToken no necesario)
+        - Ruta:
+            localhost:3000/api/user/login
+        - Adicional:
+            !IMPORTAN
+            0) Al json de respuesta se le agrega una dato token donde retornará el token.
+
+    Listar [GET]:
+        - Datos necesarios:
+            > headers (Requerido)
+            authentication: token
+        - Ruta:
+            localhost:3000/api/users
+        - Adicional:
+            0) Pide el token para verificar si es el administrador
+
+    Editar [PUT]:
+        - Datos necesarios:
+            > headers (Requerido):
+                authentication
+            > params (Requerido)
+                idUser (El usuario a editar)
+            > req.body (Opcional)
+                nickUser, nameUser, emailUser, addressUser, phoneUser, passwordUser, rolUser(Opcional)
+        - Ruta:
+            localhost:3000/api/user/edit/:userId
+    
+    Eliminar [DELETE]:
+        - Datos necesarios:
+            > headers (Requerido)
+                authentication
+            > params (Requerido)
+                idUser (El usuario a editar)
+        - Ruta:
+            localhost:3000/api/user/delete/:idUser
