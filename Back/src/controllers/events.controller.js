@@ -24,8 +24,10 @@ function register(req, res){
     var params = req.body;
     var idUser = req.params.idUser;
     var dataToken = req.user;
+    var date_ob = new Date();
 
     if(dataToken.rolUser == "ADMIN" || (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
+        //if(dateEvent >= moment() )
         EventsModel.findOne({nameEvent: params.nameEvent, descriptionEvent: params.descriptionEvent},
             (err,eventFound)=>{
                 if(err){

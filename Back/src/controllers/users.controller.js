@@ -18,7 +18,6 @@ var jsonResponse = {
 
 //Functions: 
 function register(req, res){
-    clearJson();
     var params = req.body;
 
     //Instance of all vars in use
@@ -89,7 +88,6 @@ function register(req, res){
 
 /**************************************************************************************/
 function list(req, res){
-    clearJson();
     var jsonResponse = {
         error : 500,
         message: null,
@@ -125,7 +123,6 @@ function list(req, res){
 
 /**************************************************************************************/
 function login(req, res){
-    clearJson();
     var params = req.body;
 
     UsersModel.findOne({
@@ -167,7 +164,6 @@ function login(req, res){
 
 /**************************************************************************************/
 function edit(req, res){
-    clearJson();
     var idUser = req.params.idUser;
     var params = req.body;
     var dataToken = req.user;
@@ -216,7 +212,6 @@ function edit(req, res){
 
 /****************************************************************************************/
 function erase(req, res){
-    clearJson();
     var idUser = req.params.idUser;
     var dataToken = req.user;
 
