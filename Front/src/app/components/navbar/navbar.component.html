@@ -25,6 +25,21 @@
           Inicio
         </a>
       </li>
+
+      <button class="btn btn-dark text-white" data-bs-toggle="collapse" data-bs-target="#home-collapse"
+        aria-expanded="true">
+        Eventos
+      </button>
+      <div class="collapse text-center" id="home-collapse">
+        <ul class="nav nav-pills flex-column mb-autolist-unstyled">
+
+          <li class="nav-item">
+            <a routerLink="home" class="nav-link text-white" aria-current="page">
+              Bodas
+            </a>
+          </li>
+        </ul>
+      </div>
       <li class="nav-item">
         <a routerLink="#!" class="nav-link text-white" aria-current="page">
           Administracion
@@ -41,6 +56,8 @@
         </a>
       </li>
     </ul>
+
+
     <hr>
   </div>
 </div>
