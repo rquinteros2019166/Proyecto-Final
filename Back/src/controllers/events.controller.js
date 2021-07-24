@@ -1,6 +1,6 @@
 //Libreries
 const bcrypt = require("bcrypt-nodejs");
-const UserModel = require("../../../../II Bimestre/GestorHoteles/server/src/Models/UserModel");
+const UserModel = require("../models/users.model");
 const Auth = require("../jwt/auth");
 
 
