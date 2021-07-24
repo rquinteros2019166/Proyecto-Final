@@ -11,6 +11,9 @@ var usersSchema = Schema({
     addressUser: String,
     passwordUser: String,
     imageUser: String,
+    buysUser: [{
+        eventBuy : { type: mongoose.Schema.Types.ObjectId, ref: 'events' }
+    }],
     
     rolUser: {type: String, default: "CLIENT"}
 });

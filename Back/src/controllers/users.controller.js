@@ -88,6 +88,7 @@ function register(req, res){
 
 /**************************************************************************************/
 function list(req, res){
+    var dataToken = req.user;
     var jsonResponse = {
         error : 500,
         message: null,
@@ -127,7 +128,6 @@ function login(req, res){
 
     UsersModel.findOne({
             $or : [
-                {nickUser: params.nickUser},
                 {emailUser: params.emailUser}
             ]
         }, 

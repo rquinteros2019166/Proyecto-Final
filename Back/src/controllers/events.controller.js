@@ -1,13 +1,15 @@
 //Libreries
 const bcrypt = require("bcrypt-nodejs");
+const UserModel = require("../../../../II Bimestre/GestorHoteles/server/src/Models/UserModel");
 const Auth = require("../jwt/auth");
+
 
 //Token
 var Token = new Auth();
 
 //Model
 const EventsModel = require("../models/events.model");
-
+const UsersModel = require("../models/users.model");
 
 //Message
 var jsonResponse = {
@@ -18,58 +20,73 @@ var jsonResponse = {
 
 //Functions:
 
+function dateZone(date){
+    return new Date(date).toLocaleString('en-GT', {
+        timeZone: 'America/Guatemala'
+      });
+}
+
 function register(req, res){
     clearJson();
     var eventsModel;
     var params = req.body;
     var idUser = req.params.idUser;
     var dataToken = req.user;
-    var date_ob = new Date();
+    var moment = dateZone(new Date() + 12096e5);
 
-    if(dataToken.rolUser == "ADMIN" || (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
-        //if(dateEvent >= moment() )
-        EventsModel.findOne({nameEvent: params.nameEvent, descriptionEvent: params.descriptionEvent},
-            (err,eventFound)=>{
-                if(err){
-                    jsonResponse.message = "error al encontrar un evento";
-                    res.status(jsonResponse.error).send(jsonResponse);
-                }else{
-                    if(eventFound){
-                        jsonResponse.error = 403;
-                        jsonResponse.message = "evento ya registrado";
-                        jsonResponse.data = eventFound;
+    if(dataToken.rolUser == "CLIENT" && dataToken._id == idUser){
+        if(dateZone(params.dateEvent) >= moment){
+            EventsModel.findOne({nameEvent: params.nameEvent, descriptionEvent: params.descriptionEvent},
+                (err,eventFound)=>{
+                    if(err){
+                        jsonResponse.message = "error al encontrar un evento";
                         res.status(jsonResponse.error).send(jsonResponse);
                     }else{
-
-                        eventsModel = new EventsModel({
-                            nameEvent: params.nameEvent,
-                            descriptionEvent: params.descriptionEvent,
-                            dateEvent: params.dateEvent,
-                            userEvent: idUser
-                        });
-
-                        eventsModel.save((err, saveEvent)=>{
-                            if(err){
-                                jsonResponse.message = "error al registrar un evento";
-                                res.status(jsonResponse.error).send(jsonResponse);
-                            }else{
-                                if(saveEvent){
-                                    jsonResponse.error = 200;
-                                    jsonResponse.message = "evento registrado!!";
-                                    jsonResponse.data = saveEvent;
-                                    res.status(jsonResponse.error).send(jsonResponse);
+                        if(eventFound){
+                            jsonResponse.error = 403;
+                            jsonResponse.message = "evento ya registrado";
+                            jsonResponse.data = eventFound;
+                            
+                            res.status(jsonResponse.error).send(jsonResponse);   
+                        }else{
+                            eventsModel = new EventsModel({
+                                nameEvent: params.nameEvent,
+                                descriptionEvent: params.descriptionEvent,
+                                dateEvent: params.dateEvent,
+                                typeEvent: params.typeEvent,
+                                userEvent: idUser
+                            });
+    
+                            eventsModel.save((err, saveEvent)=>{
+                                if(err){
+                                    jsonResponse.message = "error al registrar un evento";
                                 }else{
-                                    jsonResponse.error = 200;
-                                    jsonResponse.message = "el evento no posee datos";
-                                    res.status(jsonResponse.error).send(jsonResponse);
+                                    if(saveEvent){
+                                        jsonResponse.error = 200;
+                                        jsonResponse.message = "evento registrado!!";
+                                        jsonResponse.data = saveEvent;
+                                        
+                                    }else{
+                                        jsonResponse.error = 404;
+                                        jsonResponse.message = "el evento no posee datos";
+                                    }
                                 }
-                            }
-                        });
+
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            });
+                        }
                     }
-                }
-        })
+            });
+        }else{
+            jsonResponse.error = 403;
+            jsonResponse.message = `la fecha minima asignada es de 2 semanas: ` + moment + ", Fecha que enviaste: " + params.dateEvent;
+            res.status(jsonResponse.error).send(jsonResponse);
+        }
+    }else{
+        jsonResponse.error = 400;
+        jsonResponse.message = "no tienes acceso";
+        res.status(jsonResponse.error).send(jsonResponse);
     }
-    clearJson();
 }
 
 /*****************************************************************************************************/ 
@@ -80,7 +97,7 @@ function list(req, res){
 
     if(dataToken.rolUser == "ADMIN" ||
     (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
-        EventsModel.find({userEvent: idUser}).exec((err,eventsFound)=>{
+        EventsModel.find({userEvent: idUser}).sort({date:-1}).exec((err,eventsFound)=>{
             if(err){
                 jsonResponse.message = "error al listar eventos";
                 res.status(jsonResponse.error).send(jsonResponse);
@@ -92,7 +109,6 @@ function list(req, res){
             }
         })
 
-        //populate()
     }else{
         jsonResponse.error = 400;
         jsonResponse.message = "no tienes acceso";
@@ -102,21 +118,52 @@ function list(req, res){
 }
 
 /*****************************************************************************************************/ 
-function searchs(req, res){
+function listdate(req, res){
     clearJson();
     var idUser = req.params.idUser;
     var dataToken = req.user;
-    var idEvent = req.params.idEvent;
+    var moment = new Date();
+    if(dataToken.rolUser == "ADMIN" ||
+    (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
+
+        EventsModel.find({dateEvent:{$gte: moment}}).exec((err,eventsFound)=>{
+            if(err){
+                console.log(err);
+                jsonResponse.message = "error al listar eventos";
+                res.status(jsonResponse.error).send(jsonResponse);
+            }else{
+                jsonResponse.error = 200;
+                jsonResponse.message = `"Lista de eventos del usuario: " ${dataToken.nickUser}`;
+                jsonResponse.data = eventsFound;
+                res.status(jsonResponse.error).send(jsonResponse);
+            }
+        })
+
+    }else{
+        jsonResponse.error = 400;
+        jsonResponse.message = "no tienes acceso";
+        res.status(jsonResponse.error).send(jsonResponse);
+    }
+    
+}
+
+/*****************************************************************************************************/ 
+function search(req, res){
+    clearJson();
+    var idUser = req.params.idUser;
+    var dataToken = req.user;
+    var params = req.body;
+    var dateEvent = params.dateEvent;
 
     if(dataToken.rolUser == "ADMIN" ||
     (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
-        EventsModel.findOne({userEvent: idEvent},(err,eventsFound)=>{
+        EventsModel.findOne({dateEvent},(err,eventsFound)=>{
             if(err){
                 jsonResponse.message = "error al buscar evento";
                 res.status(jsonResponse.error).send(jsonResponse);
             }else{
                 jsonResponse.error = 200;
-                jsonResponse.message = `"evento encontrado del usuario: " ${dataToken.nickName}`;
+                jsonResponse.message = `"evento encontrado del usuario: " ${dataToken.nickUser}`;
                 jsonResponse.data = eventsFound
                 res.status(jsonResponse.error).send(jsonResponse);
             }
@@ -126,7 +173,6 @@ function searchs(req, res){
         jsonResponse.message = "no tienes acceso";
         res.status(jsonResponse.error).send(jsonResponse);
     }
-    clearJson();
 }
 
 /***************************************************************************************************/
@@ -138,29 +184,44 @@ function edit(req, res){
     var dataToken = req.user;
 
     var schema =  {};
-    params.name?(schema.nameEvent = params.nameEvent):null;
-    params.image?(schema.descriptionEvent = params.descriptionEvent):null;
-    dataToken.rolUser == "ADMIN"?params.date?(schema.date = params.date):null:null;
+    dataToken.rolUser == "CLIENT"?params.nameEvent?schema.nameEvent = params.nameEvent:null:null;
+    dataToken.rolUser == "CLIENT"?params.descriptionEvent?schema.descriptionEvent = params.descriptionEvent:null:null;
+    dataToken.rolUser == "ADMIN"?params.statusEvent?schema.statusEvent = params.statusEvent:null:null;
 
     if (dataToken.rolUser == "ADMIN" ||(dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
 
-        EventsModel.findByIdAndUpdate(idEvent,schemaUpdate,{new: true},(err, eventEdited)=>{
+        EventsModel.findByIdAndUpdate(idEvent,schema,{new: true, useFindAndModify: false},(err, eventUpdate)=>{
             if(err){
-                jsonResponse.message = "error al editar el evento";
+                jsonResponse.message = "Error al editar el evento";
                 res.status(jsonResponse.error).send(jsonResponse);
             }else{
-                if(eventEdit){
-                    
-                    jsonResponse.error = 200;
-                    jsonResponse.message = `"evento: " ${eventEdited.nameEvent} "Editado!!!"`;
-                    jsonResponse.data = eventEdited;
-                    
+                if(eventUpdate){
+                    /*jsonResponse.error = 200;
+                    jsonResponse.message = `"evento: " ${eventUpdate.nameEvent} "Editado!!!"`;
+                    jsonResponse.data = eventUpdate;*/
+
+                    compraAceptada(req, eventUpdate, (err) => {
+                        if(err){
+                            jsonResponse.message = "Error al actualizar compra";
+                        }else{
+                            if(eventUpdate){
+                                jsonResponse.error = 200;
+                                jsonResponse.message = "Se actualizo el pedido";
+                                jsonResponse.data = eventUpdate;
+                            }else{
+                                jsonResponse.error = 404;
+                                jsonResponse.message = err;
+                            }
+                        }
+                        
+                        res.status(jsonResponse.error).send(jsonResponse);
+                    });
                 }else{
                     jsonResponse.error = 404;
                     jsonResponse.message ="no se encontro el evento";
+                    res.status(jsonResponse.error).send(jsonResponse);
                 }
             }
-            res.status(jsonResponse.error).send(jsonResponse);
         })
     }else{
         jsonResponse.error = 403;
@@ -168,6 +229,37 @@ function edit(req, res){
         res.status(jsonResponse.error).send(jsonResponse);
     }
     
+}
+
+
+function compraAceptada(req, eventUpdate, callback){
+    if(req.body.statusEvent = "ACEPTADO" && eventUpdate.statusEvent == "ACEPTADO"){
+        UsersModel.findOne({_id : eventUpdate.userEvent, "buysUser.eventBuy" : eventUpdate._id},(err, buy) => {
+            if(err){
+                callback(err);
+            }else{
+                if(!buy){
+                    UsersModel.findByIdAndUpdate(eventUpdate.userEvent, {
+                        $push: {
+                            buysUser : {
+                                eventBuy : eventUpdate._id
+                            }
+                        }
+                    }, {new: true, useFindAndModify: false}, (err, agregado) => {
+                        if(err){
+                            callback(true);
+                        }else{
+                            callback(false);
+                        }
+                    });
+                }else{
+                    callback(false);
+                }
+            }
+        });
+    }else{
+        callback(false);
+    }
 }
 
 /*********************************************************************************************/
@@ -181,17 +273,21 @@ function erase(req, res){
         EventsModel.findByIdAndDelete(idEvent, (err, deleted)=>{
             if(err){
                 jsonResponse.message = "error al eliminar evento!!";
+                res.status(jsonResponse.error).send(jsonResponse);
             }else{
                 if(deleted){
                     jsonResponse.error = 200;
-                    jsonResponse.message = `"evento: " ${deleted.nameEvent} "Editado!!!"`;
+                    jsonResponse.message = `"evento: " ${deleted.nameEvent} "eliminado!!!"`;
                     jsonResponse.data = deleted;
+                    res.status(jsonResponse.error).send(jsonResponse);
                 }else{
                     jsonResponse.error = 404;
                     jsonResponse.message ="no se encontro el evento";
+                    res.status(jsonResponse.error).send(jsonResponse);
                 }
+                
             }
-            res.status(jsonResponse.error).send(jsonResponse);
+            
         })
     }else{
         jsonResponse.error = 403;
@@ -214,7 +310,8 @@ function clearJson(){
 module.exports = {
     register,
     list,
-    searchs,
+    listdate,
+    search,
     edit,
     erase
 };
