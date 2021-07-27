@@ -18,8 +18,61 @@ export class UserService {
    }
 
    login(user, getToken = null):Observable<any>{
+     console.log(this.rute);
      let params = JSON.stringify(user);
-     return this._http.post(this.rute+'user/register',params,{headers: this.headersVariable})
+     return this._http.post(this.rute+'user/login',params,{headers: this.headersVariable})
 
    }
+
+   register(user: User):Observable<any>{
+     let params = JSON.stringify(User);
+     return this._http.post(this.rute+'user/register',params,{headers: this.headersVariable})
+   }
+
+   getToken(){
+    var token2 = localStorage.getItem('token');
+      if (token2 != 'undefined'){
+        this.token = token2;
+      } else{
+        this.token = null;
+      }
+      return this.token;
+   }
+
+   getIdentity(){
+    var identity2 = JSON.parse(localStorage.getItem('identity'));
+    if (identity2 != 'undefined'){
+      this.identity = identity2;
+    } else {
+      this.identity = null;
+    }
+    return this.identity;
+  }
+
+  editUser(user: User,id): Observable<any>{
+    let params = JSON.stringify(User);
+    let headersToken = this.headersVariable.set('Authorization', this.getToken())
+    return this._http.put(this.rute + '/user/edit' + id,params,{headers: headersToken})
+  }
+
+  ascendClient(id): Observable<any> {
+    let headersToken = this.headersVariable.set('Authorization',this.getToken())
+    return this._http.put(this.rute+ 'user/ascend/'+id,{ headers: headersToken})
+  }
+
+  getUsers(): Observable<any> {
+    return this._http.get(this.rute + 'user/get', { headers: this.headersVariable })
+  }
+
+  getUser(id: String): Observable<any> {
+    return this._http.get(this.rute + 'user/getId/' + id, { headers: this.headersVariable })
+  }
+
+  deleteUser(id): Observable<any>{
+    let headersToken = this.headersVariable.set('Authorization', this.getToken());
+    return this._http.delete(this.rute+ 'user/delete/'+id,{ headers: headersToken})
+  }
 }
+
+
+
