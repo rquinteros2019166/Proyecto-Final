@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   }
 
  register(){
+    console.log(this.userModel)
     this._userService.register(this.userModel).subscribe(
       response=>{
         console.log(response)
