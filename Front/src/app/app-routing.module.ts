@@ -4,7 +4,9 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
-import { EventosComponent } from './eventos/eventos.component';
+import { AdminComponent } from './components/panel/admin/admin.component';
+import { EventsComponent } from './components/events/events.component';
+import { UserComponent } from './components/panel/user/user.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch : 'full'},
@@ -13,7 +15,10 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'register/:tipo', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'eventos', component: EventosComponent},
+  { path: 'events', component: EventsComponent},
+  { path: 'admin', component: AdminComponent},
+  { path: 'client', component: UserComponent},
+  { path: 'client/:type', component: UserComponent}
 ];
 
 @NgModule({

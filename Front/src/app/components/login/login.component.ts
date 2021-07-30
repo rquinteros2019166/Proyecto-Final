@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     this.userModel = new User("", "", "", 0, "", "", "")
   }
   ngOnInit(): void {
+    this.verificarUsuario();
   }
 
   getToken() {
@@ -33,6 +34,18 @@ export class LoginComponent implements OnInit {
         console.log(<any>error)
       }
     )
+  }
+
+  verificarUsuario(){
+    if(localStorage.getItem("token")){
+      let identidad = JSON.parse(localStorage.getItem("identity"));
+
+      if(identidad.rolUser == "ADMIN"){
+        this._router.navigate(['/admin'])
+      }else if(identidad.rolUser == "CLIENT"){
+        this._router.navigate(['/client'])
+      }
+    }
   }
 
   login() {
@@ -48,6 +61,12 @@ export class LoginComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
+
+        if(response.data.rolUser == "ADMIN"){
+          this._router.navigate(['/admin'])
+        }else if(response.data.rolUser == "CLIENT"){
+          this._router.navigate(['/client'])
+        }
       },
       error => {
         if (error.status === 401) {

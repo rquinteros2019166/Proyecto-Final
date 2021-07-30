@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent implements OnInit {
   public userModel: User;
-  
+
   constructor(
     private _userService: UserService,
     private _router: Router
@@ -21,6 +21,15 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(localStorage.getItem("token")){
+      let identidad = JSON.parse(localStorage.getItem("identity"));
+
+      if(identidad.rolUser == "ADMIN"){
+        this._router.navigate(['/admin'])
+      }else if(identidad.rolUser == "CLIENT"){
+        this._router.navigate(['/client'])
+      }
+    }
   }
 
  register(){
@@ -35,7 +44,10 @@ export class RegisterComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this._router.navigate(['/login'])
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("identity", JSON.stringify(response.data));
+
+        this._router.navigate(['/client'])
       },
       error =>{
         console.log(<any>error)

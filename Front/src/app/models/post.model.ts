@@ -4,7 +4,8 @@ export class Post{
    public descriptionPost: String,
    public imagePost: String,
    public datePost: Date,
-   public tagsPost: String
+   public tagsPost: String,
+   public adminPost: String
    
 
   ){}

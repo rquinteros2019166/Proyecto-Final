@@ -61,7 +61,6 @@ class Auth {
             return res.status(404).send({message: "El token ha experido",});
         }
     } catch (error) {
-        console.log("ERROR");
     }
 
     req.user = payload;

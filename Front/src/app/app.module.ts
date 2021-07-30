@@ -11,7 +11,9 @@ import { HomeComponent } from './components/home/home.component';
 import { UserService } from './service/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { EventosComponent } from './eventos/eventos.component';
+import { UserComponent } from './components/panel/user/user.component';
+import { AdminComponent } from './components/panel/admin/admin.component';
+import { EventsComponent } from './components/events/events.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { EventosComponent } from './eventos/eventos.component';
     LoginComponent,
     ProfileComponent,
     HomeComponent,
-    EventosComponent
+    UserComponent,
+    AdminComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
