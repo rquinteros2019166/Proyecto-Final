@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 var postsSchema = Schema({
     titlePost: String,
     descriptionPost: String,
+    imagePost: String,
     datePost: Date,
     tagsPost: String,
 

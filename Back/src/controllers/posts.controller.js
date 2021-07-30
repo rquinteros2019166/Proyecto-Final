@@ -78,6 +78,7 @@ function register(req, res){
                         postsModel = new PostsModel({
                             titlePost: params.titlePost,
                             descriptionPost: params.descriptionPost,
+                            imagePost: params.imagePost,
                             tagsPost: params.tagsPost,
                             datePost: params.datePost,
                             adminPost: dataToken._id
@@ -116,6 +117,7 @@ function edit(req, res){
     params.titlePost?schema.titlePost=params.titlePost:null;
     params.descriptionPost?schema.descriptionPost=params.descriptionPost:null;
     params.datePost?schema.datePost=params.datePost:null;
+    params.imagePost?schema.imagePost=params.imagePost:null;
 
     if(dataToken.rolUser == "ADMIN"){
         PostsModel.findByIdAndUpdate(idPost, schema, {new: true, useFindAndModify: false}, (err, edited) => {
