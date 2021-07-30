@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UserService } from './service/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { EventosComponent } from './eventos/eventos.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    EventosComponent
   ],
   imports: [
     BrowserModule,
