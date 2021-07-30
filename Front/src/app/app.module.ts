@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms';
 import { UserComponent } from './components/panel/user/user.component';
 import { AdminComponent } from './components/panel/admin/admin.component';
 import { EventsComponent } from './components/events/events.component';
+import { AdminHeaderComponent } from './components/headers/admin-header/admin-header.component';
+import { UserHeaderComponent } from './components/headers/user-header/user-header.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { EventsComponent } from './components/events/events.component';
     HomeComponent,
     UserComponent,
     AdminComponent,
-    EventsComponent
+    EventsComponent,
+    AdminHeaderComponent,
+    UserHeaderComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

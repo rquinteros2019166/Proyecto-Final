@@ -21,7 +21,15 @@ export class LoginComponent implements OnInit {
     this.userModel = new User("", "", "", 0, "", "", "")
   }
   ngOnInit(): void {
-    this.verificarUsuario();
+    if(localStorage.getItem("token")){
+      let identidad = JSON.parse(localStorage.getItem("identity"));
+
+      if(identidad.rolUser == "ADMIN"){
+        this._router.navigate(['/admin'])
+      }else if(identidad.rolUser == "CLIENT"){
+        this._router.navigate(['/client'])
+      }
+    }
   }
 
   getToken() {
@@ -36,18 +44,6 @@ export class LoginComponent implements OnInit {
     )
   }
 
-  verificarUsuario(){
-    if(localStorage.getItem("token")){
-      let identidad = JSON.parse(localStorage.getItem("identity"));
-
-      if(identidad.rolUser == "ADMIN"){
-        this._router.navigate(['/admin'])
-      }else if(identidad.rolUser == "CLIENT"){
-        this._router.navigate(['/client'])
-      }
-    }
-  }
-
   login() {
     this._userService.login(this.userModel).subscribe(
       response => {
@@ -60,13 +56,13 @@ export class LoginComponent implements OnInit {
           title: 'El usuario ingreso correctamente',
           showConfirmButton: false,
           timer: 1500
-        })
-
-        if(response.data.rolUser == "ADMIN"){
-          this._router.navigate(['/admin'])
-        }else if(response.data.rolUser == "CLIENT"){
-          this._router.navigate(['/client'])
-        }
+        }).then(() => {
+          if(this.identity.rolUser == "ADMIN"){
+            this._router.navigate(['/admin'])
+          }else if(this.identity.rolUser == "CLIENT"){
+            this._router.navigate(['/client'])
+          }
+        });
       },
       error => {
         if (error.status === 401) {

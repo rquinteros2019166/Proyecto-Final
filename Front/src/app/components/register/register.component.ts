@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
 import Swal from 'sweetalert2';
@@ -15,7 +15,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private urlRouter: ActivatedRoute
   ) {
     this.userModel = new User("", "", "", 0, "", "", "")
   }
@@ -43,11 +44,19 @@ export class RegisterComponent implements OnInit {
           title: 'El usuario se creo correctamente',
           showConfirmButton: false,
           timer: 1500
-        })
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("identity", JSON.stringify(response.data));
+        }).then(() => {
+          localStorage.setItem("token", response.token);
+          localStorage.setItem("identity", JSON.stringify(response.data));
 
-        this._router.navigate(['/client'])
+          let direccion = this.urlRouter.snapshot.params['tipo'];
+
+          if(direccion){
+            this._router.navigate(['/client/events/'+direccion])
+          }else{
+            this._router.navigate(['/client'])
+          }
+        });
+        
       },
       error =>{
         console.log(<any>error)
