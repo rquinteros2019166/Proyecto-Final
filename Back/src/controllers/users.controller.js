@@ -23,25 +23,16 @@ function register(req, res){
     //Instance of all vars in use
     var modeloRegistro;
 
-    var schema = {};
-    
-    params.nickUser?schema.nickUser = params.nickUser:null;
-    params.nameUser?schema.nameUser = params.nameUser:null;
-    params.emailUser?schema.emailUser = params.emailUser:null;
-    params.addressUser?schema.addressUser = params.addressUser:null;
-    params.phoneUser?schema.phoneUser = params.phoneUser:null;
-    params.passwordUser?schema.passwordUser = bcrypt.hashSync(params.passwordUser):null;
-
     //It checks if there is a token, and if there is, it checks that it is ADMIN to be able to integrate a role.
     req.user && req.user.rolUser == "ADMIN"?params.rolUser?schema.rolUser = params.rolUser:null:null;
     
     if(
-        params.nickUser && 
-        params.fullNameUser  &&
-        params.emailUser && 
-        params.passwordUser && 
+        params.nickUser &&
+        params.fullNameUser &&
+        params.emailUser &&
+        params.phoneUser &&
         params.addressUser &&
-        params.phoneUser
+        params.passwordUser 
     ){
         UsersModel.findOne(
             {$or : [
@@ -60,7 +51,15 @@ function register(req, res){
                     
                     res.status(jsonResponse.error).send(jsonResponse);
                 }else{
-                    modeloRegistro = new UsersModel(schema);
+                    modeloRegistro = new UsersModel({
+                        nickUser: params.nickUser,
+                        fullNameUser: params.fullNameUser,
+                        emailUser: params.emailUser,
+                        phoneUser: params.phoneUser,
+                        addressUser: params.addressUser,
+                        passwordUser: params.passwordUser,
+                        imageUser: params.imageUser
+                    });
                     
                     modeloRegistro.save((err, userSaved) =>{
                         if(err){
