@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent implements OnInit {
   public userModel: User;
+  
   constructor(
     private _userService: UserService,
     private _router: Router

@@ -20,18 +20,12 @@ var jsonResponse = {
 function register(req, res){
     var params = req.body;
 
-    //Instance of all vars in use
-    var modeloRegistro;
-
     //It checks if there is a token, and if there is, it checks that it is ADMIN to be able to integrate a role.
     req.user && req.user.rolUser == "ADMIN"?params.rolUser?schema.rolUser = params.rolUser:null:null;
     
     if(
         params.nickUser &&
-        params.fullNameUser &&
         params.emailUser &&
-        params.phoneUser &&
-        params.addressUser &&
         params.passwordUser 
     ){
         UsersModel.findOne(
@@ -57,7 +51,7 @@ function register(req, res){
                         emailUser: params.emailUser,
                         phoneUser: params.phoneUser,
                         addressUser: params.addressUser,
-                        passwordUser: params.passwordUser,
+                        passwordUser: bcrypt.hashSync(params.passwordUser),
                         imageUser: params.imageUser
                     });
                     
@@ -66,8 +60,10 @@ function register(req, res){
                             jsonResponse.message = "Error al guardar el usuario";
                             res.status(jsonResponse.error).send(jsonResponse);
                         }else{
-                            /* jsonResponse.error = 200;
-                            jsonResponse.message = "Usuario registrado exitosamente!!";*/
+                            /*jsonResponse.error = 200;
+                            jsonResponse.message = "Usuario registrado exitosamente!!";
+                            delete userSaved.passwordUser;
+                            jsonResponse.data = userSaved;*/
                             login(req, res);
                         }
                     })

@@ -12,7 +12,7 @@ export class UserService {
   public rute: String;
   public token;
   public identity;
-  public headersVariable = new HttpHeaders().set('Content-Type', 'application/json').set("mode", 'no-cors');
+  public headersVariable = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(public _http: HttpClient) {
     this.rute = GLOBAL.url
   }
@@ -27,7 +27,7 @@ export class UserService {
   }
 
   register(user: User): Observable<any> {
-    let params = JSON.stringify(User);
+    let params = JSON.stringify(user);
     return this._http.post(this.rute + 'user/register', params, { headers: this.headersVariable })
   }
 

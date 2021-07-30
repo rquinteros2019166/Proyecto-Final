@@ -60,7 +60,9 @@ class Auth {
         if (payload.exp <= moment().unix()) {
             return res.status(404).send({message: "El token ha experido",});
         }
-    } catch (error) {}
+    } catch (error) {
+        console.log("ERROR");
+    }
 
     req.user = payload;
     next();
