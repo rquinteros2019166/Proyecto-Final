@@ -6,6 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
+  { path: "", redirectTo: "home", pathMatch : 'full'},
   { path: 'navbar', component: NavbarComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
