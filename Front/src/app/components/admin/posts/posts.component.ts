@@ -1,6 +1,7 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Post } from 'src/app/models/post.model';
+import { PostService } from 'src/app/service/post.service';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { Post } from 'src/app/models/post.model';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
-  public postModel: Post;
+  public postModel: Post = new Post("", "", "", new Date(), "");
 
   config: AngularEditorConfig = {
     editable: true,
@@ -42,15 +43,36 @@ export class PostsComponent implements OnInit {
     ]
   };
 
+  file: any;
+  imageShow: string | ArrayBuffer;
+
   constructor(
-    private _eRef: ElementRef
+    private _postService: PostService,
   ) { 
-    this.postModel = new Post("", "", "", new Date, "", "");
   }
 
   ngOnInit(
     
   ): void {
+  }
+
+  registrar(){
+    this.postModel.imagePost = this.imageShow;
+    this._postService.register(this.postModel).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  onFileChanged(event) {
+    this.file = event.target.files[0]
+    var reader = new FileReader();
+    this.imageShow = event.target.files[0];
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (event) => {
+     this.imageShow = (<FileReader>event.target).result;
+   }
   }
 
 }

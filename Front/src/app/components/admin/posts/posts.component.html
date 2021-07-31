@@ -17,15 +17,29 @@
               <input name="titlePost" type="text" class="form-control" required="required" [(ngModel)]="postModel.titlePost" id="title" placeholder="Titulo">
             </div>
             <div class="form-group">
-              <h4>Descripción</h4>
-              <angular-editor [(ngModel)]="postModel.descriptionPost" [config]="config"></angular-editor>
+              <h4>Imagen de portada</h4>
+              <div class="custom-file">
+                <input (change)="onFileChanged($event)" class="form-control form-control-sm" id="formFileSm" name="imagePost" [(ngModel)]="postModel.imagePost" type="file" accept=".jpg,.png,.svg,.webp">
+              </div>
             </div>
-            <button>Publicar</button>
+            <div class="form-group">
+              <h4>Descripción</h4>
+              <angular-editor name="descriptionPost" [(ngModel)]="postModel.descriptionPost" [config]="config"></angular-editor>
+            </div>
+            <div class="form-group">
+              <h4>Fecha</h4>
+              <input name="datePost" type="datetime-local" class="form-control" required="required" [(ngModel)]="postModel.datePost" id="title">
+            </div>
+            <div class="form-group">
+              <h4>Tags</h4>
+              <label for="">Separa las etiquetas por una coma ","</label>
+              <input name="tagsPost" type="text" class="form-control" required="required" [(ngModel)]="postModel.tagsPost" id="title" placeholder="Etiquetas">
+            </div>
         </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" (click)="registrar()">Publicar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>

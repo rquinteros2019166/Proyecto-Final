@@ -2,6 +2,8 @@
 const bcrypt = require("bcrypt-nodejs");
 const Auth = require("../jwt/auth");
 const imgbbUploader = require("imgbb-uploader");
+const fetch = require('node-fetch');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //Model
 const PostsModel = require("../models/posts.model");
@@ -76,7 +78,20 @@ function register(req, res){
 
                          res.status(jsonResponse.error).send(jsonResponse);
                      }else{
-                         imgbbUploader("05803344c54893283c1afe967b20d2d3", params.imagePost.path).then((response) => {
+                         var form = 'key=05803344c54893283c1afe967b20d2d3&image='+params.imagePost;
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "https://api.imgbb.com/1/upload");
+                        xhr.send(form);
+
+                        if (xhr.status == 200) {
+                            console.log("Se subió");
+                          } else {
+                            console.log("No se subió");
+                          }
+
+                            res.status(200).send("a");
+                            
+                         /*imgbbUploader("05803344c54893283c1afe967b20d2d3", params.imagePost).then((response) => {
                             postsModel = new PostsModel({
                                 titlePost: params.titlePost,
                                 descriptionPost: params.descriptionPost,
@@ -108,7 +123,7 @@ function register(req, res){
                             jsonResponse.error = 500;
                             jsonResponse.message = "Ocurrio un fallo en el servidor al subir la imagen";
                             res.status(jsonResponse.error).send(jsonResponse);
-                         });
+                         });*/
                         
                     }
                 }

@@ -14,7 +14,7 @@ var postsRoots = require("./src/roots/posts.root");
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(formidableParse({ keepExtensions: true }));
+//app.use(formidableParse({ keepExtensions: true }));
 
 //ROUTES
 app.use("/api", usersRoots, eventsRoots, postsRoots);

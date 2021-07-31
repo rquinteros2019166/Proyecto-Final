@@ -1,12 +1,20 @@
 <app-user-header></app-user-header>
-<body></body>
 <div class="profile">
     <form class="custom-form">
       <h1>Perfil</h1>
-      <input type="name" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
-      <input type="email" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
-      <input type="password" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
-      <button (click)="profile()" >editar datos</button>
+      <p>Usuario :</p>
+      <input type="name" name="nickUser"  required="required" [(ngModel)]="userModel.nickUser"/>
+      <p>Nombre :</p>
+      <input type="name" name="fullNameUser" required="required" [(ngModel)]='userModel.fullNameUser'/>
+      <p>Email :</p>
+      <input type="email" name="emailUser"  required="required" [(ngModel)]='userModel.emailUser'/>
+      <p>Contraseña :</p>
+      <input type="password" name="passwordUser"  required="required" [(ngModel)]='userModel.passwordUser' />
+      <p>Direccion :</p>
+      <input type="name" name="addressUser"  required="required" [(ngModel)]='userModel.emailUser'/>
+      <p>Telefono :</p>
+      <input type="email" name="emailUser"  required="required" [(ngModel)]='userModel.emailUser'/>
+      <button (click)="profileEdit()" >editar datos</button>
     </form>
   </div>
 
