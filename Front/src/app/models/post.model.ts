@@ -1,9 +1,9 @@
-export class Post{
-  constructor(
-   public titlePost: String,
-   public imagePost: any,
-   public descriptionPost: String,
-   public datePost: Date,
-   public tagsPost: String
-  ){}
+export interface Post{
+  _id: String,
+  titlePost: String,
+  imagePost: String,
+  descriptionPost: String,
+  datePost: any,
+  tagsPost: String,
+  adminPost: String
 }

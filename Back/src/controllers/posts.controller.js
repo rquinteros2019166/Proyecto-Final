@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt-nodejs");
 const Auth = require("../jwt/auth");
 const imgbbUploader = require("imgbb-uploader");
 const fetch = require('node-fetch');
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //Model
 const PostsModel = require("../models/posts.model");
@@ -61,7 +60,6 @@ function list(req, res){
 function register(req, res){
     var params = req.body;
     var dataToken = req.user;
-    var postsModel;
 
     if(dataToken.rolUser == "ADMIN"){
         PostsModel.findOne({titlePost: params.titlePost,
@@ -78,52 +76,46 @@ function register(req, res){
 
                          res.status(jsonResponse.error).send(jsonResponse);
                      }else{
-                         var form = 'key=05803344c54893283c1afe967b20d2d3&image='+params.imagePost;
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "https://api.imgbb.com/1/upload");
-                        xhr.send(form);
+                        var form = new URLSearchParams();
+                        form.append('key', '05803344c54893283c1afe967b20d2d3');
+                        form.append('image', params.imagePost);
 
-                        if (xhr.status == 200) {
-                            console.log("Se subió");
-                          } else {
-                            console.log("No se subió");
-                          }
-
-                            res.status(200).send("a");
-                            
-                         /*imgbbUploader("05803344c54893283c1afe967b20d2d3", params.imagePost).then((response) => {
-                            postsModel = new PostsModel({
-                                titlePost: params.titlePost,
-                                descriptionPost: params.descriptionPost,
-                                imagePost: response.url,
-                                tagsPost: params.tagsPost,
-                                datePost: params.datePost,
-                                adminPost: dataToken._id
-                            });
-    
-                            postsModel.save((err, postsModel)=>{
-                                if(err){
-                                    jsonResponse.message = "Error al guardar el post";
-                                }else{
-                                    if(postsModel){
-                                        jsonResponse.error = 200;
-                                        jsonResponse.message = "Post realizado!!";
-                                        jsonResponse.data = postsModel;
+                        fetch("https://api.imgbb.com/1/upload", {
+                            method: 'post',
+                            body: form
+                        })
+                            .then(res => res.json())
+                            .then(body => {
+                                postsModel = new PostsModel({
+                                    titlePost: params.titlePost,
+                                    descriptionPost: params.descriptionPost,
+                                    imagePost: body.data.url,
+                                    tagsPost: params.tagsPost,
+                                    datePost: params.datePost,
+                                    adminPost: dataToken._id
+                                });
+        
+                                postsModel.save((err, postsModel)=>{
+                                    if(err){
+                                        jsonResponse.message = "Error al guardar el post";
                                     }else{
-                                        jsonResponse.error = 200;
-                                        jsonResponse.message = "El post no posee datos";
+                                        if(postsModel){
+                                            jsonResponse.error = 200;
+                                            jsonResponse.message = "Post realizado!!";
+                                            jsonResponse.data = postsModel;
+                                        }else{
+                                            jsonResponse.error = 200;
+                                            jsonResponse.message = "El post no posee datos";
+                                        }
                                     }
-                                }
-    
+        
+                                    res.status(jsonResponse.error).send(jsonResponse);
+                                });
+                            }).catch(err => {
+                                jsonResponse.error = 400;
+                                jsonResponse.message = "No has enviado una imagen";
                                 res.status(jsonResponse.error).send(jsonResponse);
                             });
-                         }).catch((error) => {
-                            console.error(error)
-
-                            jsonResponse.error = 500;
-                            jsonResponse.message = "Ocurrio un fallo en el servidor al subir la imagen";
-                            res.status(jsonResponse.error).send(jsonResponse);
-                         });*/
                         
                     }
                 }
@@ -142,26 +134,43 @@ function edit(req, res){
     params.titlePost?schema.titlePost=params.titlePost:null;
     params.descriptionPost?schema.descriptionPost=params.descriptionPost:null;
     params.datePost?schema.datePost=params.datePost:null;
-    params.imagePost?schema.imagePost=params.imagePost:null;
+    params.tagsPost?schema.tagsPost=params.tagsPost:null;
 
     if(dataToken.rolUser == "ADMIN"){
-        PostsModel.findByIdAndUpdate(idPost, schema, {new: true, useFindAndModify: false}, (err, edited) => {
-            if(err){
-                jsonResponse.message = "Error al editar el post";
-                res.status(jsonResponse.error).send(jsonResponse);
-            }else{
-                if(edited){
-                    jsonResponse.error = 200;
-                    jsonResponse.message = "Post editado";
-                    jsonResponse.data = edited;
-                }else{
-                    jsonResponse.error = 404;
-                    jsonResponse.message = "El post no existe";
-                }
+        var form = new URLSearchParams();
+        form.append('key', '05803344c54893283c1afe967b20d2d3');
+        form.append('image', params.imagePost);
+        fetch("https://api.imgbb.com/1/upload", {
+            method: 'post',
+            body: form
+        })
+            .then(res => res.json())
+            .then(body => {
 
-                res.status(jsonResponse.error).send(jsonResponse);
-            }
-        });
+                params.imagePost?schema.imagePost=body.data.url:null;
+
+                PostsModel.findByIdAndUpdate(idPost, schema, {new: true, useFindAndModify: false}, (err, edited) => {
+                if(err){
+                    jsonResponse.message = "Error al editar el post";
+                    res.status(jsonResponse.error).send(jsonResponse);
+                }else{
+                    if(edited){
+                        jsonResponse.error = 200;
+                        jsonResponse.message = "Post editado";
+                        jsonResponse.data = edited;
+                    }else{
+                        jsonResponse.error = 404;
+                        jsonResponse.message = "El post no existe";
+                    }
+
+                    res.status(jsonResponse.error).send(jsonResponse);
+                }
+            });
+        }).catch(err => {
+                                jsonResponse.error = 400;
+                                jsonResponse.message = "No has enviado una imagen";
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            });
     }
 
     clearJson();
