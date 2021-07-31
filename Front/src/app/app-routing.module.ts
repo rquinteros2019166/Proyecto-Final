@@ -8,6 +8,8 @@ import { AdminComponent } from './components/panel/admin/admin.component';
 import { EventsComponent } from './components/events/events.component';
 import { UserComponent } from './components/panel/user/user.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { PostsComponent } from './components/admin/posts/posts.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch : 'full'},
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'register/:tipo', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'admin', component: AdminComponent},
+  { path: 'profile', component: ProfileComponent},
+  { path: 'posts', component: PostsComponent},
   { path: 'client', component: UserComponent},
   { path: 'client/events', component: EventsComponent},
   { path: 'client/events/:tipo', component: EventsComponent}

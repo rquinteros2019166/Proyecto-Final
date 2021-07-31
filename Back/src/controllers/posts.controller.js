@@ -1,6 +1,7 @@
 //Libreries
 const bcrypt = require("bcrypt-nodejs");
 const Auth = require("../jwt/auth");
+const imgbbUploader = require("imgbb-uploader");
 
 //Model
 const PostsModel = require("../models/posts.model");
@@ -75,31 +76,40 @@ function register(req, res){
 
                          res.status(jsonResponse.error).send(jsonResponse);
                      }else{
-                        postsModel = new PostsModel({
-                            titlePost: params.titlePost,
-                            descriptionPost: params.descriptionPost,
-                            imagePost: params.imagePost,
-                            tagsPost: params.tagsPost,
-                            datePost: params.datePost,
-                            adminPost: dataToken._id
-                        });
-
-                        postsModel.save((err, postsModel)=>{
-                            if(err){
-                                jsonResponse.message = "Error al guardar el post";
-                            }else{
-                                if(postsModel){
-                                    jsonResponse.error = 200;
-                                    jsonResponse.message = "Post realizado!!";
-                                    jsonResponse.data = postsModel;
+                         imgbbUploader("05803344c54893283c1afe967b20d2d3", params.imagePost.path).then((response) => {
+                            postsModel = new PostsModel({
+                                titlePost: params.titlePost,
+                                descriptionPost: params.descriptionPost,
+                                imagePost: response.url,
+                                tagsPost: params.tagsPost,
+                                datePost: params.datePost,
+                                adminPost: dataToken._id
+                            });
+    
+                            postsModel.save((err, postsModel)=>{
+                                if(err){
+                                    jsonResponse.message = "Error al guardar el post";
                                 }else{
-                                    jsonResponse.error = 200;
-                                    jsonResponse.message = "El post no posee datos";
+                                    if(postsModel){
+                                        jsonResponse.error = 200;
+                                        jsonResponse.message = "Post realizado!!";
+                                        jsonResponse.data = postsModel;
+                                    }else{
+                                        jsonResponse.error = 200;
+                                        jsonResponse.message = "El post no posee datos";
+                                    }
                                 }
-                            }
+    
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            });
+                         }).catch((error) => {
+                            console.error(error)
 
+                            jsonResponse.error = 500;
+                            jsonResponse.message = "Ocurrio un fallo en el servidor al subir la imagen";
                             res.status(jsonResponse.error).send(jsonResponse);
-                        });
+                         });
+                        
                     }
                 }
             });

@@ -1,1 +1,12 @@
-<p>profile works!</p>
+<app-user-header></app-user-header>
+<body></body>
+<div class="profile">
+    <form class="custom-form">
+      <h1>Perfil</h1>
+      <input type="name" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
+      <input type="email" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
+      <input type="password" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
+      <button (click)="profile()" >editar datos</button>
+    </form>
+  </div>
+

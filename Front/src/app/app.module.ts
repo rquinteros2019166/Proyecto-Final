@@ -17,6 +17,8 @@ import { EventsComponent } from './components/events/events.component';
 import { AdminHeaderComponent } from './components/headers/admin-header/admin-header.component';
 import { UserHeaderComponent } from './components/headers/user-header/user-header.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { PostsComponent } from './components/admin/posts/posts.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -31,13 +33,15 @@ import { LogoutComponent } from './components/logout/logout.component';
     EventsComponent,
     AdminHeaderComponent,
     UserHeaderComponent,
-    LogoutComponent
+    LogoutComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    AngularEditorModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
