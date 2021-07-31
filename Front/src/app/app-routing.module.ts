@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/session/login/login.component';
+import { NavbarComponent } from './components/headers/navbar/navbar.component';
+import { RegisterComponent } from './components/session/register/register.component';
 import { AdminComponent } from './components/panel/admin/admin.component';
-import { EventsComponent } from './components/events/events.component';
+import { EventsComponent } from './components/user/events/events.component';
 import { UserComponent } from './components/panel/user/user.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { LogoutComponent } from './components/session/logout/logout.component';
+import { ProfileComponent } from './components/session/profile/profile.component';
 import { PostsComponent } from './components/admin/posts/posts.component';
 
 const routes: Routes = [

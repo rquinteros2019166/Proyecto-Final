@@ -1,0 +1,10 @@
+<app-navbar></app-navbar>
+<div class="register">
+  <form class="custom-form">
+    <h1>Registrar</h1>
+    <input type="name" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
+    <input type="email" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
+    <input type="password" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
+    <button (click)="register()" >Crear cuenta</button>
+  </form>
+</div>
