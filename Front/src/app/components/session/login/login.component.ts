@@ -22,13 +22,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     if(localStorage.getItem("token")){
-      let identidad = JSON.parse(localStorage.getItem("identity"));
-
-      if(identidad.rolUser == "ADMIN"){
-        this._router.navigate(['/admin'])
-      }else if(identidad.rolUser == "CLIENT"){
-        this._router.navigate(['/client'])
-      }
+      this._router.navigate(['/home'])
     }
   }
 
@@ -57,11 +51,7 @@ export class LoginComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         }).then(() => {
-          if(this.identity.rolUser == "ADMIN"){
-            this._router.navigate(['/admin'])
-          }else if(this.identity.rolUser == "CLIENT"){
-            this._router.navigate(['/client'])
-          }
+          this._router.navigate(['/home'])
         });
       },
       error => {

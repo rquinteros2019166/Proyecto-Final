@@ -1,1 +1,8 @@
-<p>post works!</p>
+<app-navbar *ngIf="user.rolUser == 'DEFAULT'"></app-navbar>
+<app-admin-header *ngIf="user.rolUser == 'ADMIN'"></app-admin-header>
+<app-user-header *ngIf="user.rolUser == 'CLIENT'"></app-user-header>
+<div class="container">
+    <h1>{{postModel.titlePost}}</h1><label>{{postModel.datePost}}</label>
+    <p [innerHTML]='postModel.descriptionPost'></p>
+    <b>{{postModel.tagsPost}}</b>
+</div>

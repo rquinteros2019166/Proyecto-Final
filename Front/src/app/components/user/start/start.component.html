@@ -40,45 +40,11 @@
     <!-- Three columns of text below the carousel -->
     <div class="container-md">
         <div class="row">
-            <div class="col-xs-12 col-sm-4">
-                <div class="card mb-3">
-                    <img src="" class="card-img-top" alt="..." style="height: 200px;" />
+            <div class="col-xs-12 col-sm-3" *ngFor="let post of postsModel" routerLink="/post/{{post._id}}">
+                <div class="card mb-3" >
+                    <img src="{{post.imagePost}}" class="card-img-top" alt="..." style="height: 150px;" />
                     <div class="card-header text-center">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" class="btn btn-outline-warning">Editar</button>
-                            <button type="button" class="btn btn-outline-primary">Ver</button>
-                            <button type="button" class="btn btn-outline-danger">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="card mb-3">
-                    <img src="" class="card-img-top" alt="..." style="height: 200px;" />
-                    <div class="card-header text-center">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" class="btn btn-outline-warning">Editar</button>
-                            <button type="button" class="btn btn-outline-primary">Ver</button>
-                            <button type="button" class="btn btn-outline-danger">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="card mb-3">
-                    <img src="" class="card-img-top" alt="..." style="height: 200px;" />
-                    <div class="card-header text-center">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" class="btn btn-outline-warning">Editar</button>
-                            <button type="button" class="btn btn-outline-primary">Ver</button>
-                            <button type="button" class="btn btn-outline-danger">Eliminar</button>
-                        </div>
+                        <h5 class="card-title">{{post.titlePost}}</h5>
                     </div>
                 </div>
             </div>

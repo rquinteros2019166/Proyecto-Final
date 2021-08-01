@@ -8,19 +8,20 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  public user: any = {rolUser: "DEFAULT"};
+
   constructor(
     private _router: Router
-  ) { }
+  ) {
+    let identidad;
+    if(identidad = localStorage.getItem('identity')){
+      this.user = JSON.parse(localStorage.getItem('identity'));
+    }
+  }
 
   ngOnInit(): void {
     if(localStorage.getItem("token")){
-      let identidad = JSON.parse(localStorage.getItem("identity"));
-
-      if(identidad.rolUser == "ADMIN"){
-        this._router.navigate(['/admin'])
-      }else if(identidad.rolUser == "CLIENT"){
-        this._router.navigate(['/client'])
-      }
+      this._router.navigate(['/home'])
     }
   }
 

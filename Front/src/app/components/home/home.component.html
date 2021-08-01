@@ -1,2 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar *ngIf="user.rolUser == 'DEFAULT'"></app-navbar>
+<app-admin-header *ngIf="user.rolUser == 'ADMIN'"></app-admin-header>
+<app-user-header *ngIf="user.rolUser == 'CLIENT'"></app-user-header>
 <app-start></app-start>

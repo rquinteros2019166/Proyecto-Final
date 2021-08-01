@@ -16,9 +16,13 @@ export class PostService {
     this.rute = GLOBAL.url
   }
 
+
+  get(id: String): Observable<any>{
+    return this._http.get(this.rute + 'user/post/'+id)
+  }
+
   list(): Observable<any>{
-    let headersVariable = this.headersVariable.set("Authorization", localStorage.getItem('token'));
-    return this._http.get(this.rute + 'user/posts', { headers: headersVariable })
+    return this._http.get(this.rute + 'user/posts')
   }
 
   register(post:Post): Observable<any>{

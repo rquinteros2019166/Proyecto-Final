@@ -56,6 +56,20 @@ function list(req, res){
     clearJson();
 }
 
+function getOne(req, res){
+    PostsModel.findById(req.params.idPost,(err,listed)=>{
+        if(err){
+            jsonResponse.message = "Error al listar Posts";
+        }else{
+            jsonResponse.error = 200;
+            jsonResponse.message = "Exito al listar los post!!";
+            jsonResponse.data = listed;
+        }
+        res.status(jsonResponse.error).send(jsonResponse);
+    });
+    clearJson();
+}
+
 /************************************************************************************************/
 function register(req, res){
     var params = req.body;
@@ -230,7 +244,8 @@ module.exports = {
     register,
     edit,
     erase,
-    search
+    search,
+    getOne
 };
 
 /*************************************************************************************************/

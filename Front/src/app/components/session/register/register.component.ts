@@ -23,13 +23,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     if(localStorage.getItem("token")){
-      let identidad = JSON.parse(localStorage.getItem("identity"));
-
-      if(identidad.rolUser == "ADMIN"){
-        this._router.navigate(['/admin'])
-      }else if(identidad.rolUser == "CLIENT"){
-        this._router.navigate(['/client'])
-      }
+      this._router.navigate(['/home'])
     }
   }
 
@@ -53,7 +47,7 @@ export class RegisterComponent implements OnInit {
           if(direccion){
             this._router.navigate(['/client/events/'+direccion])
           }else{
-            this._router.navigate(['/client'])
+            this._router.navigate(['/home'])
           }
         });
         

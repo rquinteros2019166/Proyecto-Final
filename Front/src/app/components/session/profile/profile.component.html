@@ -1,4 +1,6 @@
-<button type="button" class="btn btn-light" routerLink="/home">Regresar</button>
+<app-navbar *ngIf="user.rolUser == 'DEFAULT'"></app-navbar>
+<app-admin-header *ngIf="user.rolUser == 'ADMIN'"></app-admin-header>
+<app-user-header *ngIf="user.rolUser == 'CLIENT'"></app-user-header>
 <div class="profile">
     <form class="custom-form">
       <h1>Perfil</h1>

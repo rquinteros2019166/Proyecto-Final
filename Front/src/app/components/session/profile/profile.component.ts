@@ -12,8 +12,15 @@ import Swal from 'sweetalert2';
 export class ProfileComponent implements OnInit {
   
   public userModel: User;
-  
-  constructor( private userService: UserService){
+  public user: any = {rolUser: "DEFAULT"};
+
+  constructor( 
+      private userService: UserService
+    ){
+      let identidad;
+      if(identidad = localStorage.getItem('identity')){
+        this.user = JSON.parse(localStorage.getItem('identity'));
+      }
    }
 
   ngOnInit(): void {

@@ -11,8 +11,6 @@ import { HomeComponent } from './components/home/home.component';
 import { UserService } from './service/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { UserComponent } from './components/panel/user/user.component';
-import { AdminComponent } from './components/panel/admin/admin.component';
 import { EventsComponent } from './components/user/events/events.component';
 import { AdminHeaderComponent } from './components/headers/admin-header/admin-header.component';
 import { UserHeaderComponent } from './components/headers/user-header/user-header.component';
@@ -32,8 +30,6 @@ import { EventsadminComponent } from './components/admin/eventsadmin/eventsadmin
     LoginComponent,
     ProfileComponent,
     HomeComponent,
-    UserComponent,
-    AdminComponent,
     EventsComponent,
     AdminHeaderComponent,
     UserHeaderComponent,
