@@ -45,39 +45,60 @@ function register(req, res){
                     
                     res.status(jsonResponse.error).send(jsonResponse);
                 }else{
-                    var form = new URLSearchParams();
-                    form.append('key', '05803344c54893283c1afe967b20d2d3');
-                    form.append('image', params.imagePost);
+                    if(params.imagePost){
+                        var form = new URLSearchParams();
+                        form.append('key', '05803344c54893283c1afe967b20d2d3');
+                        form.append('image', params.imagePost);
 
-                    fetch("https://api.imgbb.com/1/upload", {
-                        method: 'post',
-                        body: form
-                    })
-                        .then(res => res.json())
-                        .then(body => {
-                            modeloRegistro = new UsersModel({
-                                nickUser: params.nickUser,
-                                fullNameUser: params.fullNameUser,
-                                emailUser: params.emailUser,
-                                phoneUser: params.phoneUser,
-                                addressUser: params.addressUser,
-                                passwordUser: bcrypt.hashSync(params.passwordUser),
-                                imageUser: body.data.url
+                        fetch("https://api.imgbb.com/1/upload", {
+                            method: 'post',
+                            body: form
+                        })
+                            .then(res => res.json())
+                            .then(body => {
+                                modeloRegistro = new UsersModel({
+                                    nickUser: params.nickUser,
+                                    fullNameUser: params.fullNameUser,
+                                    emailUser: params.emailUser,
+                                    phoneUser: params.phoneUser,
+                                    addressUser: params.addressUser,
+                                    passwordUser: bcrypt.hashSync(params.passwordUser),
+                                    imageUser: body.data.url
+                                });
+                                
+                                modeloRegistro.save((err, userSaved) =>{
+                                    if(err){
+                                        jsonResponse.message = "Error al guardar el usuario";
+                                        res.status(jsonResponse.error).send(jsonResponse);
+                                    }else{
+                                        login(req, res);
+                                    }
+                                })
+                            }).catch(err => {
+                                jsonResponse.error = 400;
+                                jsonResponse.message = "No has enviado una imagen";
+                                res.status(jsonResponse.error).send(jsonResponse);
                             });
-                            
-                            modeloRegistro.save((err, userSaved) =>{
-                                if(err){
-                                    jsonResponse.message = "Error al guardar el usuario";
-                                    res.status(jsonResponse.error).send(jsonResponse);
-                                }else{
-                                    login(req, res);
-                                }
-                            })
-                        }).catch(err => {
-                            jsonResponse.error = 400;
-                            jsonResponse.message = "No has enviado una imagen";
-                            res.status(jsonResponse.error).send(jsonResponse);
+                    }else{
+                        modeloRegistro = new UsersModel({
+                            nickUser: params.nickUser,
+                            fullNameUser: params.fullNameUser,
+                            emailUser: params.emailUser,
+                            phoneUser: params.phoneUser,
+                            addressUser: params.addressUser,
+                            passwordUser: bcrypt.hashSync(params.passwordUser),
+                            imageUser: params.imageUser
                         });
+                        
+                        modeloRegistro.save((err, userSaved) =>{
+                            if(err){
+                                jsonResponse.message = "Error al guardar el usuario";
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            }else{
+                                login(req, res);
+                            }
+                        })
+                    }
                 }
                 
             }
