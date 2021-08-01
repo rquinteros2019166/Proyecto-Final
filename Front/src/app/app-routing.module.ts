@@ -10,6 +10,8 @@ import { UserComponent } from './components/panel/user/user.component';
 import { LogoutComponent } from './components/session/logout/logout.component';
 import { ProfileComponent } from './components/session/profile/profile.component';
 import { PostsComponent } from './components/admin/posts/posts.component';
+import { UsersComponent } from './components/admin/users/users.component';
+import { EventsadminComponent } from './components/admin/eventsadmin/eventsadmin.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch : 'full'},
@@ -21,7 +23,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'admin', component: AdminComponent},
   { path: 'profile', component: ProfileComponent},
-  { path: 'posts', component: PostsComponent},
+  { path: 'admin/posts', component: PostsComponent},
+  { path: 'admin/users', component: UsersComponent},
+  { path: 'admin/events', component: EventsadminComponent},
   { path: 'client', component: UserComponent},
   { path: 'client/events', component: EventsComponent},
   { path: 'client/events/:tipo', component: EventsComponent}

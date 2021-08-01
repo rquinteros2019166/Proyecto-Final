@@ -120,6 +120,10 @@ function register(req, res){
                     }
                 }
             });
+    }else{
+        jsonResponse.error = 403;
+        jsonResponse.message = "No tienes permisos para agregar un post";
+        res.status(jsonResponse.error).send(jsonResponse);
     }
     clearJson();
 }
@@ -171,6 +175,10 @@ function edit(req, res){
                                 jsonResponse.message = "No has enviado una imagen";
                                 res.status(jsonResponse.error).send(jsonResponse);
                             });
+    }else{
+        jsonResponse.error = 403;
+        jsonResponse.message = "No tienes permisos para agregar un post";
+        res.status(jsonResponse.error).send(jsonResponse);
     }
 
     clearJson();
