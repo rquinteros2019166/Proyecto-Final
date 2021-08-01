@@ -9,8 +9,18 @@ import { GLOBAL } from './global.service';
 export class EventService {
   public rute: String;
   public headersVariable = new HttpHeaders().set('Content-Type', 'application/json');
+  public token;
+  public identity;
   constructor(public _http: HttpClient) {
     this.rute = GLOBAL.url
+  }
+
+  listEvent():Observable<any>{
+    return this._http.get(this.rute+'listevents')
+  }
+
+  registerEvents(event: Event, token): Observable<any>{
+
   }
 
   getEvents(): Observable<any> {
