@@ -21,6 +21,7 @@ import { PostsComponent } from './components/admin/posts/posts.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PostComponent } from './components/user/post/post.component';
 import { UsersComponent } from './components/admin/users/users.component';
+import { StartComponent } from './components/user/start/start.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UsersComponent } from './components/admin/users/users.component';
     LogoutComponent,
     PostsComponent,
     PostComponent,
-    UsersComponent
+    UsersComponent,
+    StartComponent
   ],
   imports: [
     BrowserModule,
