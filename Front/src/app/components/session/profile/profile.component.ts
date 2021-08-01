@@ -12,14 +12,12 @@ import Swal from 'sweetalert2';
 export class ProfileComponent implements OnInit {
   
   public userModel: User;
-  public userList;
   
   constructor( private userService: UserService){
    }
 
   ngOnInit(): void {
     
-    this.getUsers()
   }
 
   getUserId(id){
@@ -58,16 +56,6 @@ export class ProfileComponent implements OnInit {
     )
   }
 
-  getUsers(){
-    this.userService.getUsers().subscribe(
-      response=>{
-      console.log(response.usersFound)
-      this.userList = response.usersFound
-    }),
-    error=>{
-      console.log(<any>error)
-    }
-  }
   
 }
 

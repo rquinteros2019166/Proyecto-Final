@@ -1,12 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand"  href="#" routerLink="/home" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-      aria-controls="offcanvasScrolling">DC Audiovisuales</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div>
-  </div>
-</nav>
-
+<button type="button" class="btn btn-light" routerLink="/home">Regresar</button>
 <div class="profile">
     <form class="custom-form">
       <h1>Perfil</h1>
@@ -23,9 +15,6 @@
       <p>Telefono :</p>
       <input type="email" name="emailUser"  required="required" [(ngModel)]='userModel.emailUser'/>
       <button (click)="profileEdit()" >editar datos</button>
-      <button type="button" class="btn btn-light" routerLink="/home">Regresar</button>
     </form>
-  </div> 
-  
-  
+  </div>
 
