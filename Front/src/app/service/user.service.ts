@@ -51,28 +51,20 @@ export class UserService {
     return this.identity;
   }
 
-  editUser(user: User, id): Observable<any> {
-    let params = JSON.stringify(User);
+  editar(user: User): Observable<any> {
+    let params = JSON.stringify(user);
     let headersToken = this.headersVariable.set('Authorization', this.getToken())
-    return this._http.put(this.rute + '/user/edit' + id, params, { headers: headersToken })
-  }
-
-  ascendClient(id): Observable<any> {
-    let headersToken = this.headersVariable.set('Authorization', this.getToken())
-    return this._http.put(this.rute + 'user/ascend/' + id, { headers: headersToken })
+    return this._http.put(this.rute + 'user/'+user._id, params, { headers: headersToken })
   }
 
   getUsers(): Observable<any> {
-    return this._http.get(this.rute + 'user/get', { headers: this.headersVariable })
+    let headersToken = this.headersVariable.set('Authorization', this.getToken())
+    return this._http.get(this.rute + 'users', { headers: headersToken })
   }
 
-  getUser(id: String): Observable<any> {
-    return this._http.get(this.rute + 'user/getId/' + id, { headers: this.headersVariable })
-  }
-
-  deleteUser(id): Observable<any> {
+  eliminar(id: String): Observable<any> {
     let headersToken = this.headersVariable.set('Authorization', this.getToken());
-    return this._http.delete(this.rute + 'user/delete/' + id, { headers: headersToken })
+    return this._http.delete(this.rute + 'user/' + id, { headers: headersToken })
   }
 }
 

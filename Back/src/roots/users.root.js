@@ -11,8 +11,8 @@ var api = express.Router();
 api.get("/users", token.ensureAuth, controller.list);
 api.post("/user/login", controller.login);
 api.post("/user/register", token.ensureAuthOptional, controller.register);
-api.put("/user/edit/:idUser", token.ensureAuth, controller.edit);
-api.delete("/user/delete/:idUser", token.ensureAuth, controller.erase);
+api.put("/user/:idUser", token.ensureAuth, controller.edit);
+api.delete("/user/:idUser", token.ensureAuth, controller.erase);
 
 //Export
 module.exports = api;

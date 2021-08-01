@@ -27,16 +27,8 @@ export class ProfileComponent implements OnInit {
     
   }
 
-  getUserId(id){
-    this.userService.getUser(id).subscribe(
-      response =>{
-        this.userModel = response.userFound;
-      }
-    )
-  }
-
   profileEdit(){
-    this.userService.editUser(this.userModel,this.userModel).subscribe(
+    /*this.userService.editar(this.userModel,this.userModel).subscribe(
       response=>{
         console.log(response);
         Swal.fire({
@@ -60,7 +52,7 @@ export class ProfileComponent implements OnInit {
         console.log(this.userModel)
 
       }
-    )
+    )*/
   }
 
   

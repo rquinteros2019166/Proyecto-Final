@@ -1,6 +1,7 @@
 //Libraries
 const bcrypt = require("bcrypt-nodejs");
 const Auth = require("../jwt/auth");
+const fetch = require("node-fetch");
 
 //Token
 var token = new Auth();
@@ -87,7 +88,7 @@ function register(req, res){
                             phoneUser: params.phoneUser,
                             addressUser: params.addressUser,
                             passwordUser: bcrypt.hashSync(params.passwordUser),
-                            imageUser: params.imageUser
+                            imageUser: "https://iili.io/Ai5zfn.png"
                         });
                         
                         modeloRegistro.save((err, userSaved) =>{
@@ -198,35 +199,75 @@ function edit(req, res){
     var schema = {};
 
     params.nickUser?schema.nickUser = params.nickUser:null;
-    params.nameUser?schema.nameUser = params.nameUser:null;
+    params.fullNameUser?schema.fullNameUser = params.fullNameUser:null;
     params.emailUser?schema.emailUser = params.emailUser:null;
     params.addressUser?schema.addressUser = params.addressUser:null;
     params.phoneUser?schema.phoneUser = params.phoneUser:null;
-    params.passwordUser?schema.passwordUser = bcrypt.hashSync(params.passwordUser):null;
+    params.passwordUser && params.passwordUser.length > 4?schema.passwordUser = bcrypt.hashSync(params.passwordUser):null;
 
     dataToken.rolUser == "ADMIN"?params.rolUser?schema.rolUser = params.rolUser:null:null;
 
     if(dataToken._id = idUser || dataToken.rolUser == "ADMIN"){
-        UsersModel.findByIdAndUpdate(idUser, schema, {new: true, useFindAndModify: false}, (err, userUpdated) => {
-            if(err){
-                jsonResponse.message = "Error al editar usuario";
-                
-                res.status(jsonResponse.error).send(jsonResponse);
-            }else{
-                if(userUpdated){
-                    jsonResponse.error = 200;
-                    jsonResponse.message = "Editado exitosamente";
-                    jsonResponse.data = userUpdated;
+        if(params.imageUser){
+            var form = new URLSearchParams();
+            form.append('key', '05803344c54893283c1afe967b20d2d3');
+            form.append('image', params.imageUser);
 
+            fetch("https://api.imgbb.com/1/upload", {
+                method: 'post',
+                body: form
+            })
+                .then(res => res.json())
+                .then(body => {
+                    schema.imageUser = body.data.url;
+
+                    UsersModel.findByIdAndUpdate(idUser, schema, {new: true, useFindAndModify: false}, (err, userUpdated) => {
+                        if(err){
+                            jsonResponse.message = "Error al editar usuario";
+                            
+                            res.status(jsonResponse.error).send(jsonResponse);
+                        }else{
+                            if(userUpdated){
+                                jsonResponse.error = 200;
+                                jsonResponse.message = "Editado exitosamente";
+                                jsonResponse.data = userUpdated;
+            
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            }else{
+                                jsonResponse.error = 404;
+                                jsonResponse.message = "Error en encontrado";
+                            
+                                res.status(jsonResponse.error).send(jsonResponse);
+                            }
+                        }
+                    });
+                }).catch(err => {
+                    jsonResponse.error = 400;
+                    jsonResponse.message = "No has enviado una imagen valida";
+                    res.status(jsonResponse.error).send(jsonResponse);
+                });
+        }else{
+            UsersModel.findByIdAndUpdate(idUser, schema, {new: true, useFindAndModify: false}, (err, userUpdated) => {
+                if(err){
+                    jsonResponse.message = "Error al editar usuario";
+                    
                     res.status(jsonResponse.error).send(jsonResponse);
                 }else{
-                    jsonResponse.error = 404;
-                    jsonResponse.message = "Error en encontrado";
-                
-                    res.status(jsonResponse.error).send(jsonResponse);
+                    if(userUpdated){
+                        jsonResponse.error = 200;
+                        jsonResponse.message = "Editado exitosamente";
+                        jsonResponse.data = userUpdated;
+    
+                        res.status(jsonResponse.error).send(jsonResponse);
+                    }else{
+                        jsonResponse.error = 404;
+                        jsonResponse.message = "Error en encontrado";
+                    
+                        res.status(jsonResponse.error).send(jsonResponse);
+                    }
                 }
-            }
-        });
+            });
+        }
     }else{
         jsonResponse.error = 403;
         jsonResponse.message = "No tienes permisos para editar";

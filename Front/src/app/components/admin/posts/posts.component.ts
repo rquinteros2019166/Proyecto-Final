@@ -80,7 +80,6 @@ export class PostsComponent implements OnInit {
 
   get(id){
     var encontrado = false;
-    console.log();
     for (let i = 0; i < this.tablePosts.length && encontrado == false; i++) {
       if(this.tablePosts[i]._id == id){
         this.postUpdateModel = this.tablePosts[i];
@@ -173,7 +172,15 @@ export class PostsComponent implements OnInit {
           timer: 1500
       })
 
-      this.postUpdateModel = response.data;
+      this.postUpdateModel = {
+        _id: response.data._id,
+          titlePost: response.data.titlePost,
+          imagePost: response.data.imagePost,
+          descriptionPost: response.data.descriptionPost,
+          datePost: new Date(response.data.datePost).toISOString().substr(0, 16),
+          tagsPost: response.data.tagsPost,
+          adminPost: response.data.adminPost
+      };
 
       this.obtenerLista();
     }, error => {

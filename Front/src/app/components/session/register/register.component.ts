@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
     private _router: Router,
     private urlRouter: ActivatedRoute
   ) {
-    this.userModel = new User("", "", "", 0, "", "", "")
+    this.userModel = new User("", "", "", "", 0, "", "", "", "")
   }
 
   ngOnInit(): void {
