@@ -20,6 +20,7 @@ import { LogoutComponent } from './components/session/logout/logout.component';
 import { PostsComponent } from './components/admin/posts/posts.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PostComponent } from './components/user/post/post.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PostComponent } from './components/user/post/post.component';
     UserHeaderComponent,
     LogoutComponent,
     PostsComponent,
-    PostComponent
+    PostComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
