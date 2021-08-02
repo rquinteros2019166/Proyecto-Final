@@ -39,7 +39,7 @@ function register(req, res){
                 EventsModel.findOne({nameEvent: params.nameEvent},
                     (err,eventFound)=>{
                         if(err){
-                            jsonResponse.message = "error al encontrar un evento";
+                            jsonResponse.message = "Error al encontrar un evento";
                             res.status(jsonResponse.error).send(jsonResponse);
                         }else{
                             
@@ -62,16 +62,16 @@ function register(req, res){
         
                                 eventsModel.save((err, saveEvent)=>{
                                     if(err){
-                                        jsonResponse.message = "error al registrar un evento";
+                                        jsonResponse.message = "Error al registrar un evento";
                                     }else{
                                         if(saveEvent){
                                             jsonResponse.error = 200;
-                                            jsonResponse.message = "evento registrado!!";
+                                            jsonResponse.message = "Evento registrado!!";
                                             jsonResponse.data = saveEvent;
                                             
                                         }else{
                                             jsonResponse.error = 404;
-                                            jsonResponse.message = "el evento no posee datos";
+                                            jsonResponse.message = "El evento no posee datos";
                                         }
                                     }
     
@@ -82,12 +82,12 @@ function register(req, res){
                 });
             }else{
                 jsonResponse.error = 403;
-                jsonResponse.message = `la fecha minima asignada es de 2 semanas: ` + moment + ", Fecha que enviaste: " + params.dateEvent;
+                jsonResponse.message = `La fecha minima asignada es de 2 semanas: ` + moment + ", Fecha que enviaste: " + params.dateEvent;
                 res.status(jsonResponse.error).send(jsonResponse);
             }
         }else{
             jsonResponse.error = 400;
-            jsonResponse.message = "debes llenar todos los campos obligatorios";
+            jsonResponse.message = "Debes llenar todos los campos obligatorios";
             res.status(jsonResponse.error).send(jsonResponse);
         }
         
@@ -108,7 +108,7 @@ function list(req, res){
     (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
         EventsModel.find({userEvent: idUser}).sort({date:-1}).exec((err,eventsFound)=>{
             if(err){
-                jsonResponse.message = "error al listar eventos";
+                jsonResponse.message = "Error al listar eventos";
                 res.status(jsonResponse.error).send(jsonResponse);
             }else{
                 if(eventsFound && eventsFound.length > 0){
@@ -128,7 +128,41 @@ function list(req, res){
 
     }else{
         jsonResponse.error = 403;
-        jsonResponse.message = "no tienes acceso";
+        jsonResponse.message = "No tienes acceso";
+        res.status(jsonResponse.error).send(jsonResponse);
+    }
+    
+}
+
+function listAll(req, res){
+    clearJson();
+    var idUser = req.params.idUser;
+    var dataToken = req.user;
+
+    if(dataToken.rolUser == "ADMIN"){
+        EventsModel.find({userEvent: idUser}).sort({date:-1}).exec((err,eventsFound)=>{
+            if(err){
+                jsonResponse.message = "Error al listar eventos";
+                res.status(jsonResponse.error).send(jsonResponse);
+            }else{
+                if(eventsFound && eventsFound.length > 0){
+                    jsonResponse.error = 200;
+                    jsonResponse.message = `"Lista de eventos del usuario`;
+                    jsonResponse.data = eventsFound;
+                    res.status(jsonResponse.error).send(jsonResponse);
+                }else{
+                    jsonResponse.error = 404;
+                    jsonResponse.message = `"No hay eventos del usuario`;
+                    jsonResponse.data = null;
+                    res.status(jsonResponse.error).send(jsonResponse);
+                }
+                
+            }
+        })
+
+    }else{
+        jsonResponse.error = 403;
+        jsonResponse.message = "No tienes acceso";
         res.status(jsonResponse.error).send(jsonResponse);
     }
     
@@ -137,16 +171,14 @@ function list(req, res){
 /*****************************************************************************************************/ 
 function listdate(req, res){
     clearJson();
-    var idUser = req.params.idUser;
     var dataToken = req.user;
 
-    if(dataToken.rolUser == "ADMIN" ||
-    (dataToken.rolUser == "CLIENT" && dataToken._id == idUser)){
+    if(dataToken.rolUser == "ADMIN"){
 
-        EventsModel.find({userEvent: idUser, dateEvent : {$gte: new Date()} }).sort({dateEvent: 1}).exec((err,eventsFound)=>{
+        EventsModel.find({dateEvent : {$gte: new Date()} }).sort({dateEvent: 1}).exec((err,eventsFound)=>{
             if(err){
                 console.log(err);
-                jsonResponse.message = "error al listar eventos";
+                jsonResponse.message = "Error al listar eventos";
                 res.status(jsonResponse.error).send(jsonResponse);
             }else{
                 if(eventsFound && eventsFound.length > 0){
@@ -165,7 +197,7 @@ function listdate(req, res){
 
     }else{
         jsonResponse.error = 400;
-        jsonResponse.message = "no tienes acceso";
+        jsonResponse.message = "No tienes acceso";
         res.status(jsonResponse.error).send(jsonResponse);
     }
     
@@ -337,5 +369,6 @@ module.exports = {
     listdate,
     search,
     edit,
-    erase
+    erase,
+    listAll
 };

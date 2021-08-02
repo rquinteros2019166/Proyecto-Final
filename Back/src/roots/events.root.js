@@ -8,6 +8,7 @@ var token = new Auth();
 var api = express.Router();
 
 //Routs
+api.get("/user/events", token.ensureAuth, controller.listAll);
 api.get("/user/:idUser/events", token.ensureAuth, controller.list);
 api.get("/user/:idUser/eventsDate", token.ensureAuth, controller.listdate);
 api.post("/user/:idUser/events", token.ensureAuth, controller.search);
