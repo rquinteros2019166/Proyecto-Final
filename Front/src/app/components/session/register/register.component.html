@@ -1,10 +1,16 @@
-<app-navbar></app-navbar>
-<div class="register">
-  <form class="custom-form">
+<app-navbar class="headerI"></app-navbar>
+<div class="container contenedorForm">
+  <form class="formulario">
     <h1>Registrar</h1>
-    <input type="name" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
-    <input type="email" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
-    <input type="password" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
-    <button (click)="register()" >Crear cuenta</button>
+    <div class="form-group">
+      <input type="name" class="form-control" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
+    </div>
+    <button class="btn btn-dark" (click)="register()" >Crear cuenta</button>
   </form>
 </div>

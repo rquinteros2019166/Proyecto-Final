@@ -47,17 +47,8 @@ export class ProfileComponent implements OnInit {
           timer: 1500
       })
 
-      this.user = new User(
-          response.data._id, 
-          response.data.nickUser,
-          response.data.fullNameUser,
-          response.data.emailUser,
-          response.data.phoneUser,
-          response.data.addressUser,
-          "",
-          response.data.imageUser,
-          response.data.buysUser
-      );
+      this.user = response.data;
+      this.user.passwordUser = "";
 
       localStorage.setItem("identity", JSON.stringify(response.data));
     }, error => {
