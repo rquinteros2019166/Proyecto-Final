@@ -11,50 +11,81 @@ import Swal from 'sweetalert2';
 })
 export class ProfileComponent implements OnInit {
   
-  public userModel: User;
-  public user: any = {rolUser: "DEFAULT"};
+  NameUser: string;
 
-  constructor( 
-      private userService: UserService
-    ){
-      let identidad;
+  public user: any = {rolUser: "DEFAULT"};
+  
+  file: any;
+  imageShow: string | ArrayBuffer;
+
+  constructor(
+    private _userService: UserService
+  ) {
+    let identidad;
       if(identidad = localStorage.getItem('identity')){
         this.user = JSON.parse(localStorage.getItem('identity'));
+        this.user.passwordUser = "";
       }
-   }
+
+  }
 
   ngOnInit(): void {
-    
   }
-
-  profileEdit(){
-    /*this.userService.editar(this.userModel,this.userModel).subscribe(
-      response=>{
-        console.log(response);
-        Swal.fire({
-          position: 'center',
+  editar(){
+    if(String(this.imageShow).length > 0){
+      var txt = String(this.imageShow).split("base64,");
+      this.user.imageUser = txt[1];
+    }else{
+      this.user.imageUser = this.user.imageUser;
+    }
+    this._userService.editar(this.user).subscribe(response => {
+      Swal.fire({
+        position: 'center',
           icon: 'success',
-          title: 'El usuario se edito correctamente',
+          title: response.message,
           showConfirmButton: false,
           timer: 1500
-        });
-        localStorage.setItem('User',JSON.stringify(this.userModel))
-        
-      },
-      error=>{
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'No se pudo editar',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        console.log(this.userModel)
+      })
 
-      }
-    )*/
+      this.user = new User(
+          response.data._id, 
+          response.data.nickUser,
+          response.data.fullNameUser,
+          response.data.emailUser,
+          response.data.phoneUser,
+          response.data.addressUser,
+          "",
+          response.data.imageUser,
+          response.data.buysUser
+      );
+
+      localStorage.setItem("identity", JSON.stringify(response.data));
+    }, error => {
+      Swal.fire({
+        position: 'center',
+          icon: 'success',
+          title: error.error.message,
+          showConfirmButton: false,
+          timer: 1500
+      })
+    });
   }
+
 
   
-}
 
+  onFileChanged(event) {
+    this.file = event.target.files[0]
+    var reader = new FileReader();
+    this.imageShow = event.target.files[0];
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (event) => {
+     this.imageShow = (<FileReader>event.target).result;
+   }
+  }
+
+  limpiar(){
+    this.imageShow = null;
+    this.user = new User("", "", "", "", 0, "", "", "", "");
+  }
+}

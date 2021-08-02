@@ -1,22 +1,40 @@
 <app-navbar *ngIf="user.rolUser == 'DEFAULT'"></app-navbar>
 <app-admin-header *ngIf="user.rolUser == 'ADMIN'"></app-admin-header>
 <app-user-header *ngIf="user.rolUser == 'CLIENT'"></app-user-header>
-<div class="profile">
-    <form class="custom-form">
+<div class="container">
+    <form enctype="multipart/form-data">
       <h1>Perfil</h1>
-      <p>Usuario :</p>
-      <input type="name" name="nickUser"  required="required" [(ngModel)]="userModel.nickUser"/>
-      <p>Nombre :</p>
-      <input type="name" name="fullNameUser" required="required" [(ngModel)]='userModel.fullNameUser'/>
-      <p>Email :</p>
-      <input type="email" name="emailUser"  required="required" [(ngModel)]='userModel.emailUser'/>
-      <p>Contraseña :</p>
-      <input type="password" name="passwordUser"  required="required" [(ngModel)]='userModel.passwordUser' />
-      <p>Direccion :</p>
-      <input type="name" name="addressUser"  required="required" [(ngModel)]='userModel.emailUser'/>
-      <p>Telefono :</p>
-      <input type="email" name="emailUser"  required="required" [(ngModel)]='userModel.emailUser'/>
-      <button (click)="profileEdit()" >editar datos</button>
+        <div class="form-group">
+            <h4>Usuario</h4>
+            <input placeholder="Nombre de usuario" name="nickUser" type="text" class="form-control" required="required" [(ngModel)]="user.nickUser" id="title">
+        </div>
+        <div class="form-group">
+            <h4>Nombre Completo</h4>
+            <input placeholder="Nombre completo" name="fullNameUser" type="text" class="form-control" required="required" [(ngModel)]="user.fullNameUser" id="title">
+        </div>
+        <div class="form-group">
+            <h4>Correo</h4>
+            <input placeholder="Correo electrónico" name="emailUser" type="email" class="form-control" required="required" [(ngModel)]="user.emailUser" id="title">
+        </div>
+        <div class="form-group">
+            <h4>Nueva Contraseña</h4>
+            <input placeholder="Contraseña" name="passwordUser" type="password" class="form-control" required="required" [(ngModel)]="user.passwordUser" id="title">
+        </div>
+        <div class="form-group">
+            <h4>Dirección</h4>
+            <input placeholder="Dirección" name="addressUser" type="text" class="form-control" required="required" [(ngModel)]="user.addressUser" id="title">
+        </div>
+        <div class="form-group">
+            <h4>Télefono</h4>
+            <input placeholder="Numero de teléfono" name="phoneUser" type="tel" class="form-control" required="required" [(ngModel)]="user.phoneUser" id="title">
+        </div>
+        <div class="form-group">
+        <h4>Imagen de portada</h4>
+        <h6>Actual: <a href="{{user.imageUser}}" target="_blank">{{user.imageUser}}</a></h6>
+        <div class="custom-file">
+            <input (change)="onFileChanged($event)" class="form-control form-control-sm" id="formFileSm" name="imagePost" type="file" accept=".jpg,.png,.svg,.webp">
+        </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="editar()">Actualizar</button>
     </form>
-  </div>
-
+</div>
