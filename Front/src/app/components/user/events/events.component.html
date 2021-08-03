@@ -1,37 +1,67 @@
 <app-user-header></app-user-header>
+<div class="menuBt">
+<button type="button" class="btn btn-primary btRight" data-toggle="modal" data-target="#formAdd">Crear evento</button>
+</div>
+<div class="modal fade" id="formAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 100%;">
+    <div class="modal-content" style="width: 90%; margin: 0 auto;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Añadir evento</h5>
+        <button type="button" class="close" (click)="limpiar()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <h4>Nombre del evento</h4>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Name event" name="nameEvent" #event="ngModel"[(ngModel)]="modelEvent.nameEvent" >
+          </div>
 
-<body>
-<form>
-  <div class="form-group">
-    <h4>Nombre del evento</h4>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Name event" name="nameEvent" #event="ngModel"[(ngModel)]="modelEvent.nameEvent" >
-  </div>
+          <div class="form-group">
+           <h4> <option><br>Tipo de evento<br></option></h4>
+            <select class="form-select" aria-label="Default select example" name="typeEvent" [(ngModel)]="modelEvent.typeEvent">
+              <option value="Boda">Boda</option>
+              <option value="15 años">15 años</option>
+              <option value="Cumpleaños" selected>Cumpleaños</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <h4>Fecha</h4>
+            <input name="datePost" type="datetime-local" class="form-control" required="required" id="title" name="fecha" #event="ngModel"[(ngModel)]="modelEvent.dateEvent">
+          </div>
 
-  <div class="form-group">
-   <h4> <option><br>Tipo de evento<br></option></h4>
-    <select class="form-select" aria-label="Default select example">
-      <option>Boda</option>
-      <option>15 años</option>
-      <option selected>Cumpleaños</option>
-      <option>Otro</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <h4>Fecha</h4>
-    <input name="datePost" type="datetime-local" class="form-control" required="required" id="title" name="fecha" #event="ngModel"[(ngModel)]="modelEvent.dateEvent">
-  </div>
-
-  <div class="form-group">
-    <h4>Descripción del evento</h4>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descrptionEvent" #event="ngModel"[(ngModel)]="modelEvent.descriptionEvent" ></textarea>
-  </div>
-  <div class="form-group">
-    <div class="buttons">
+          <div class="form-group">
+            <h4>Descripción del evento</h4>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descrptionEvent" #event="ngModel"[(ngModel)]="modelEvent.descriptionEvent" ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)='addEvent()'>Enviar</button>
-        <button type="button" class="btn btn-outline-secondary" (click)='limpiar()'>Cancelar</button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" (click)='limpiar()'>Cancelar</button>
+      </div>
     </div>
   </div>
-</form>
-
-</body>
+</div>
+<div class="contentTable">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nombre del evento</th>
+        <th scope="col">Tipo del evento</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of events" (click)="get(dt._id)" data-toggle="modal" data-target="#formEdit">
+      <th scope="row">{{dt.nameEvent}}</th>
+      <td>{{dt.typeEvent}}</td>
+      <td>{{dt.dateEvent}}</td>
+      <td>{{dt.nameEvent}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

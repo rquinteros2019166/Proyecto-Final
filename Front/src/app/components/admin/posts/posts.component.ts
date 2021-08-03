@@ -69,12 +69,12 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private _postService: PostService,
-  ) { 
+  ) {
     this.obtenerLista();
   }
 
   ngOnInit(
-    
+
   ): void {
   }
 

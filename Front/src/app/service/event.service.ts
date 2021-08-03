@@ -18,17 +18,19 @@ export class EventService {
   }
 
   listEvent():Observable<any>{
-    return this._http.get(this.rute+'listevents')
+    let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"));
+    return this._http.get(this.rute + 'user/events', { headers: headersToken})
   }
 
-  registerEvents(event: Events, token){
-    let params = JSON.stringify(event);
-      let headersToken = this.headersVariable.set('Authorization', token)
-        return this._http.post(this.rute + 'saveEvents', params,{ headers: headersToken})
+  registerEvents(event: Events, id: String){
+      let params = JSON.stringify(event);
+      let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"))
+      return this._http.post(this.rute + 'user/'+id+'/event/register', params,{ headers: headersToken})
   }
 
   getEventId(id: String):Observable<any>{
-    return this._http.get(this.rute + 'listEventId/'+id,{ headers: this.headersVariable})
+    let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"))
+    return this._http.get(this.rute + 'user/'+id+'/events',{ headers: headersToken})
   }
 
   getDataEvent(){
