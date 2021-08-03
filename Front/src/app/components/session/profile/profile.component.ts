@@ -77,6 +77,6 @@ export class ProfileComponent implements OnInit {
 
   limpiar(){
     this.imageShow = null;
-    this.user = new User("", "", "", "", 0, "", "", "", "");
+    this.user = new User("", "", "", "", 0, "", "", "", "", "");
   }
 }

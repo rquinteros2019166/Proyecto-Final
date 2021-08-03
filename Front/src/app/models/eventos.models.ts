@@ -5,7 +5,7 @@ export class Events{
     public descriptionEvent: String,
     public statusEvent: String,
     public typeEvent: String,
-    public dateEvent: any
-
+    public dateEvent: String,
+    public userEvent: String
   ){}
 }

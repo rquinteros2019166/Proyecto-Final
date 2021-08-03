@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private _userService: UserService,
     private _router: Router
   ) {
-    this.userModel = new User("","", "", "", 0, "", "", "", "")
+    this.userModel = new User("","", "", "", 0, "", "", "", "", "")
   }
   ngOnInit(): void {
     if(localStorage.getItem("token")){

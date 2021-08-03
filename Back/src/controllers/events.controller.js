@@ -35,7 +35,6 @@ function register(req, res){
 
     if(dataToken.rolUser == "CLIENT" && dataToken._id == idUser){
         if(params.nameEvent && params.descriptionEvent && params.dateEvent && params.typeEvent){
-            if(dateZone(params.dateEvent) >= moment){
                 EventsModel.findOne({nameEvent: params.nameEvent},
                     (err,eventFound)=>{
                         if(err){
@@ -80,11 +79,11 @@ function register(req, res){
                             }
                         }
                 });
-            }else{
+           /* }else{
                 jsonResponse.error = 403;
                 jsonResponse.message = `La fecha minima asignada es de 2 semanas: ` + moment + ", Fecha que enviaste: " + params.dateEvent;
                 res.status(jsonResponse.error).send(jsonResponse);
-            }
+            }*/
         }else{
             jsonResponse.error = 400;
             jsonResponse.message = "Debes llenar todos los campos obligatorios";
@@ -140,7 +139,7 @@ function listAll(req, res){
     var dataToken = req.user;
 
     if(dataToken.rolUser == "ADMIN"){
-        EventsModel.find({userEvent: idUser}).sort({date:-1}).exec((err,eventsFound)=>{
+        EventsModel.find({}).sort({date:-1}).exec((err,eventsFound)=>{
             if(err){
                 jsonResponse.message = "Error al listar eventos";
                 res.status(jsonResponse.error).send(jsonResponse);
@@ -251,18 +250,14 @@ function edit(req, res){
                 jsonResponse.message = "Error al editar el evento";
                 res.status(jsonResponse.error).send(jsonResponse);
             }else{
-                if(eventUpdate && deleted.length > 0){
-                    /*jsonResponse.error = 200;
-                    jsonResponse.message = `"evento: " ${eventUpdate.nameEvent} "Editado!!!"`;
-                    jsonResponse.data = eventUpdate;*/
-
+                if(eventUpdate){
                     compraAceptada(req, eventUpdate, (err) => {
                         if(err){
                             jsonResponse.message = "Error al actualizar compra";
                         }else{
                             if(eventUpdate){
                                 jsonResponse.error = 200;
-                                jsonResponse.message = "Se actualizo el pedido";
+                                jsonResponse.message = "Se actualizo el evento";
                                 jsonResponse.data = eventUpdate;
                             }else{
                                 jsonResponse.error = 404;

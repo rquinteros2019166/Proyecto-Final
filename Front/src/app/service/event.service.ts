@@ -17,9 +17,19 @@ export class EventService {
     this.rute = GLOBAL.url
   }
 
-  listEvent():Observable<any>{
+  list():Observable<any>{
     let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"));
     return this._http.get(this.rute + 'user/events', { headers: headersToken})
+  }
+
+  editar(data: Events):Observable<any>{
+    let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"));
+    return this._http.put(this.rute + 'user/'+data.userEvent+'/event/edit/'+data._id, data, { headers: headersToken})
+  }
+
+  eliminar(data: Events):Observable<any>{
+    let headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"));
+    return this._http.delete(this.rute + 'user/'+data.userEvent+'/event/delete/'+data._id, { headers: headersToken})
   }
 
   registerEvents(event: Events, id: String){

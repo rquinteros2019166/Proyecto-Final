@@ -8,7 +8,7 @@ export class User{
     public addressUser: String,
     public passwordUser: String,
     public imageUser: String,
-    public buysUser: any
-
+    public buysUser: any,
+    public rolUser: String
   ){}
 }

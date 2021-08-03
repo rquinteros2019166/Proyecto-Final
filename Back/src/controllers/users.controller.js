@@ -22,7 +22,7 @@ function register(req, res){
     var params = req.body;
 
     //It checks if there is a token, and if there is, it checks that it is ADMIN to be able to integrate a role.
-    req.user && req.user.rolUser == "ADMIN"?params.rolUser?schema.rolUser = params.rolUser:null:null;
+    req.user.rolUser != "ADMIN"?delete req.user.rolUser:null;
     
     if(
         params.nickUser &&
@@ -46,10 +46,10 @@ function register(req, res){
                     
                     res.status(jsonResponse.error).send(jsonResponse);
                 }else{
-                    if(params.imagePost){
+                    if(params.imageUser){
                         var form = new URLSearchParams();
                         form.append('key', '05803344c54893283c1afe967b20d2d3');
-                        form.append('image', params.imagePost);
+                        form.append('image', params.imageUser);
 
                         fetch("https://api.imgbb.com/1/upload", {
                             method: 'post',

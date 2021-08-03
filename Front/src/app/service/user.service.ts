@@ -28,7 +28,13 @@ export class UserService {
 
   register(user: User): Observable<any> {
     let params = JSON.stringify(user);
-    return this._http.post(this.rute + 'user/register', params, { headers: this.headersVariable })
+    let headersToken;
+    if(localStorage.getItem("token")){
+      headersToken = this.headersVariable.set('Authorization', localStorage.getItem("token"))
+    }else{
+      headersToken = this.headersVariable;
+    }
+    return this._http.post(this.rute + 'user/register', params, { headers: headersToken })
   }
 
   getToken() {

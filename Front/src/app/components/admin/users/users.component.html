@@ -52,6 +52,13 @@
                 <input placeholder="Correo electrónico" name="emailUser" type="email" class="form-control" required="required" [(ngModel)]="modelUser.emailUser" id="title">
             </div>
             <div class="form-group">
+              <h4>Rol</h4>
+              <select name="rolUser" class="form-control" [(ngModel)]="modelUser.rolUser">
+                <option [value]="'CLIENT'" [selected]="true">Cliente</option>
+                <option [value]="'ADMIN'">Administrador</option>
+              </select>
+            </div>
+            <div class="form-group">
                 <h4>Contraseña</h4>
                 <input placeholder="Contraseña" name="passwordUser" type="password" class="form-control" required="required" [(ngModel)]="modelUser.passwordUser" id="title">
             </div>
@@ -100,6 +107,13 @@
                 <div class="form-group">
                     <h4>Correo</h4>
                     <input placeholder="Correo electrónico" name="emailUser" type="email" class="form-control" required="required" [(ngModel)]="modelUpdateUser.emailUser" id="title">
+                </div>
+                <div class="form-group">
+                  <h4>Rol</h4>
+                  <select name="rolUser" class="form-control" [(ngModel)]="modelUpdateUser.rolUser">
+                    <option [value]="'CLIENT'" [selected]="true">Cliente</option>
+                    <option [value]="'ADMIN'">Administrador</option>
+                  </select>
                 </div>
                 <div class="form-group">
                     <h4>Nueva Contraseña</h4>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Post } from 'src/app/models/post.model';
-import { PostService } from 'src/app/service/post.service';
+import { Events } from 'src/app/models/eventos.models';
+import { EventService } from 'src/app/service/event.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,27 +10,29 @@ import Swal from 'sweetalert2';
   styleUrls: ['./eventsadmin.component.scss']
 })
 export class EventsadminComponent implements OnInit {
-  public postModel: Post = {
+  public eventModel: Events = {
     _id: "",
-    titlePost: "",
-    imagePost: "",
-    descriptionPost: "",
-    datePost: new Date(Date.now()).toISOString().substr(0, 16),
-    tagsPost: "",
-    adminPost: ""
+    nameEvent: "",
+    descriptionEvent: "",
+    statusEvent: "",
+    typeEvent: "",
+    dateEvent: "",
+    userEvent: ""
   };
 
-  public postUpdateModel: Post = {
+  public eventUpdateModel: Events = {
     _id: "",
-    titlePost: "",
-    imagePost: "",
-    descriptionPost: "",
-    datePost: new Date(Date.now()).toISOString().substr(0, 16),
-    tagsPost: "",
-    adminPost: ""
+    nameEvent: "",
+    descriptionEvent: "",
+    statusEvent: "",
+    typeEvent: "",
+    dateEvent: "",
+    userEvent: ""
   };
 
-  public tablePosts: Array<Post>;
+  public tableEvents: Array<Events>;
+
+  //new Date(Date.now()).toISOString().substr(0, 16)
 
   config: AngularEditorConfig = {
     editable: true,
@@ -67,7 +69,7 @@ export class EventsadminComponent implements OnInit {
   imageShow: string | ArrayBuffer;
 
   constructor(
-    private _postService: PostService,
+    private _eventsService: EventService,
   ) { 
     this.obtenerLista();
   }
@@ -79,31 +81,31 @@ export class EventsadminComponent implements OnInit {
 
   get(id){
     var encontrado = false;
-    console.log();
-    for (let i = 0; i < this.tablePosts.length && encontrado == false; i++) {
-      if(this.tablePosts[i]._id == id){
-        this.postUpdateModel = this.tablePosts[i];
+    for (let i = 0; i < this.tableEvents.length && encontrado == false; i++) {
+      if(this.tableEvents[i]._id == id){
+        this.eventUpdateModel = this.tableEvents[i];
       }
     }
+
+    console.log(this.eventUpdateModel);
   }
 
   obtenerLista(){
-    this._postService.list().subscribe(response => {
+    this._eventsService.list().subscribe(response => {
       var array = [];
       response.data.forEach(element => {
         var tablePosts = {
           _id: element._id,
-          titlePost: element.titlePost,
-          imagePost: element.imagePost,
-          descriptionPost: element.descriptionPost,
-          datePost: new Date(element.datePost).toISOString().substr(0, 16),
-          tagsPost: element.tagsPost,
-          adminPost: element.adminPost
+          nameEvent: element.nameEvent,
+          descriptionEvent: element.descriptionEvent,
+          statusEvent: element.statusEvent,
+          typeEvent: element.typeEvent,
+          dateEvent: new Date(element.dateEvent).toISOString().substr(0, 16),
         }
         array.push(tablePosts);
       });
 
-      this.tablePosts = array;
+      this.tableEvents = array;
     }, error => {
       console.log(error);
     });
@@ -111,59 +113,29 @@ export class EventsadminComponent implements OnInit {
 
   limpiar(){
     this.imageShow = null;
-    this.postModel = {
+    this.eventModel = {
       _id: "",
-      titlePost: "",
-      imagePost: "",
-      descriptionPost: "",
-      datePost: new Date(Date.now()).toISOString().substr(0, 16),
-      tagsPost: "",
-      adminPost: ""
+      nameEvent: "",
+      descriptionEvent: "",
+      statusEvent: "",
+      typeEvent: "",
+      dateEvent: "",
+      userEvent: ""
     };
 
-    this.postUpdateModel = {
+    this.eventUpdateModel = {
       _id: "",
-      titlePost: "",
-      imagePost: "",
-      descriptionPost: "",
-      datePost: new Date(Date.now()).toISOString().substr(0, 16),
-      tagsPost: "",
-      adminPost: ""
+      nameEvent: "",
+      descriptionEvent: "",
+      statusEvent: "",
+      typeEvent: "",
+      dateEvent: "",
+      userEvent: ""
     };
-  }
-
-  registrar(){
-    var txt = String(this.imageShow).split("base64,");
-    this.postModel.imagePost = txt[1];
-    this._postService.register(this.postModel).subscribe(response => {
-      Swal.fire({
-        position: 'center',
-          icon: 'success',
-          title: response.message,
-          showConfirmButton: false,
-          timer: 1500
-      })
-
-      this.obtenerLista();
-    }, error => {
-      Swal.fire({
-        position: 'center',
-          icon: 'success',
-          title: error.error.message,
-          showConfirmButton: false,
-          timer: 1500
-      })
-    });
   }
 
   editar(){
-    if(String(this.imageShow).length > 0){
-      var txt = String(this.imageShow).split("base64,");
-      this.postUpdateModel.imagePost = txt[1];
-    }else{
-      this.postUpdateModel.imagePost = this.postUpdateModel.imagePost;
-    }
-    this._postService.editar(this.postUpdateModel).subscribe(response => {
+    this._eventsService.editar(this.eventUpdateModel).subscribe(response => {
       Swal.fire({
         position: 'center',
           icon: 'success',
@@ -172,7 +144,7 @@ export class EventsadminComponent implements OnInit {
           timer: 1500
       })
 
-      this.postUpdateModel = response.data;
+      this.eventUpdateModel = response.data;
 
       this.obtenerLista();
     }, error => {
@@ -187,7 +159,7 @@ export class EventsadminComponent implements OnInit {
   }
 
   eliminar(){
-    this._postService.eliminar(this.postUpdateModel._id).subscribe(response => {
+    this._eventsService.eliminar(this.eventUpdateModel).subscribe(response => {
       Swal.fire({
         position: 'center',
           icon: 'success',
@@ -206,16 +178,6 @@ export class EventsadminComponent implements OnInit {
           timer: 1500
       })
     });
-  }
-
-  onFileChanged(event) {
-    this.file = event.target.files[0]
-    var reader = new FileReader();
-    this.imageShow = event.target.files[0];
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (event) => {
-     this.imageShow = (<FileReader>event.target).result;
-   }
   }
 
 }

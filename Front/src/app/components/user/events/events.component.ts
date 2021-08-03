@@ -26,7 +26,7 @@ export class EventsComponent implements OnInit {
 
     this.user = JSON.parse(localStorage.getItem("identity"));
     this.token = this._userService.getToken();
-    this.modelEvent = new Events('','','','','','',)
+    this.modelEvent = new Events('','','','','','','')
 
   }
 
@@ -49,6 +49,8 @@ addEvent(){
             timer: 1500
         })
         this._router.navigate(['/events'])
+
+        this.obtenerEvent();
       },
       error=>{
         console.log(<any>error)
@@ -71,7 +73,8 @@ limpiar(){
    descriptionEvent: "",
    statusEvent: "",
    typeEvent: "",
-   dateEvent: new Date(Date.now()).toISOString().substr(0, 16)
+   dateEvent: new Date(Date.now()).toISOString().substr(0, 16),
+   userEvent: ""
   };
 
 

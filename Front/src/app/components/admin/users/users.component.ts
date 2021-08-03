@@ -11,8 +11,8 @@ import Swal from 'sweetalert2';
 export class UsersComponent implements OnInit {
 
   public tableUsers: Array<User>;
-  public modelUser: User = new User("", "", "", "", 0, "", "", "", "");
-  public modelUpdateUser: User = new User("", "", "", "", 0, "", "", "", "");
+  public modelUser: User = new User("", "", "", "", 0, "", "", "", "", "CLIENT");
+  public modelUpdateUser: User = new User("", "", "", "", 0, "", "", "", "", "");
 
   file: any;
   imageShow: string | ArrayBuffer;
@@ -39,7 +39,8 @@ export class UsersComponent implements OnInit {
             element.addressUser,
             "",
             element.imageUser,
-            element.buysUser
+            element.buysUser,
+            element.rolUser
           );
         array.push(tableUsers);
       });
@@ -108,7 +109,8 @@ export class UsersComponent implements OnInit {
           response.data.addressUser,
           "",
           response.data.imageUser,
-          response.data.buysUser
+          response.data.buysUser,
+          response.data.rolUser
       );
 
       this.obtenerLista();
@@ -157,8 +159,8 @@ export class UsersComponent implements OnInit {
 
   limpiar(){
     this.imageShow = null;
-    this.modelUser = new User("", "", "", "", 0, "", "", "", "");
-    this.modelUpdateUser = new User("", "", "", "", 0, "", "", "", "");
+    this.modelUser = new User("", "", "", "", 0, "", "", "", "", "CLIENT");
+    this.modelUpdateUser = new User("", "", "", "", 0, "", "", "", "", "");
   }
 
 }
