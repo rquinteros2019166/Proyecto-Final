@@ -1,115 +1,37 @@
 <app-admin-header></app-admin-header>
-<div class="menuBt">
-    <button type="button" class="btn btn-primary btRight" data-toggle="modal" data-target="#formAdd">Crear un nuevo evento</button>
-  </div>
-  <div class="contentTable">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Titulo</th>
-          <th scope="col">Tipo de evento</th>
-          <th scope="col">Fecha</th>
-          <th scope="col">Tipo de evento</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let dt of tablePosts" (click)="get(dt._id)" data-toggle="modal" data-target="#formEdit">
-          <th scope="row">{{dt._id}}</th>
-          <td>{{dt.titlePost}}</td>
-          <td>{{dt.datePost}}</td>
-          <td><img src="{{dt.imagePost}}" style="max-height: 100px;"/></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="modal fade" id="formAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width: 100%;">
-      <div class="modal-content" style="width: 90%; margin: 0 auto;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Añadir Evento</h5>
-          <button type="button" class="close" (click)="limpiar()" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form enctype="multipart/form-data">
-            <div class="form-group">
-              <h4>Titulo</h4>
-              <input name="titlePost" type="text" class="form-control" required="required" [(ngModel)]="postModel.titlePost" id="title" placeholder="Titulo">
-            </div>
-            <div class="form-group">
-              <h4>Tipo de Evento</h4>
-              <div class="custom-file">
-                <input (change)="onFileChanged($event)" class="form-control form-control-sm" id="formFileSm" name="imagePost" type="file" accept=".jpg,.png,.svg,.webp">
-              </div>
-            </div>
-            <div class="form-group">
-              <h4>Descripción</h4>
-              <angular-editor name="descriptionPost" [(ngModel)]="postModel.descriptionPost" [config]="config"></angular-editor>
-            </div>
-            <div class="form-group">
-              <h4>Fecha</h4>
-              <input name="datePost" type="datetime-local" class="form-control" required="required" [(ngModel)]="postModel.datePost" id="title">
-            </div>
-            <div class="form-group">
-              <h4>Tags</h4>
-              <label for="">Separa las etiquetas por una coma ","</label>
-              <input name="tagsPost" type="text" class="form-control" required="required" [(ngModel)]="postModel.tagsPost" id="title" placeholder="Etiquetas">
-            </div>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="registrar()">Publicar</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiar()">Cerrar</button>
-        </div>
+<div class="modal fade" id="formAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 100%;">
+    <div class="modal-content" style="width: 90%; margin: 0 auto;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">EVENTO</h5>
+        <button type="button" class="close" (click)="limpiar()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="formEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width: 100%;">
-      <div class="modal-content" style="width: 90%; margin: 0 auto;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
-          <button type="button" class="close" (click)="limpiar()" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form enctype="multipart/form-data">
-            <div class="form-group">
-              <h4>Titulo</h4>
-              <input name="titlePost" type="text" class="form-control" required="required" [(ngModel)]="postUpdateModel.titlePost" id="title" placeholder="Titulo">
+      <div class="modal-body">
+        <form enctype="multipart/form-data">
+          <div class="form-group">
+            <h4>Titulo</h4>
+            <input name="titlePost" type="text" class="form-control" required="required" [(ngModel)]="postModel.titlePost" id="title" placeholder="Titulo">
+          </div>
+          <div class="form-group">
+            <h4>tipo del evento</h4>
+            <div class="custom-file">
+              <input (change)="onFileChanged($event)" class="form-control form-control-sm" id="formFileSm" name="imagePost" type="file" accept=".jpg,.png,.svg,.webp">
             </div>
-            <div class="form-group">
-              <h4>Imagen de portada</h4>
-              <h5>Actual: <a href="{{postUpdateModel.imagePost}}" target="_blank">{{postUpdateModel.imagePost}}</a></h5>
-              <div class="custom-file">
-                <input (change)="onFileChanged($event)" class="form-control form-control-sm" id="formFileSm" name="imagePostDos" type="file" accept=".jpg,.png,.svg,.webp">
-              </div>
-            </div>
-            <div class="form-group">
-              <h4>Descripción</h4>
-              <angular-editor name="descriptionPost" [(ngModel)]="postUpdateModel.descriptionPost" [config]="config"></angular-editor>
-            </div>
-            <div class="form-group">
-              <h4>Fecha</h4>
-              <input name="datePost" type="datetime-local" class="form-control" [(ngModel)]="postUpdateModel.datePost" id="title">
-            </div>
-            <div class="form-group">
-              <h4>Tags</h4>
-              <label for="">Separa las etiquetas por una coma ","</label>
-              <input name="tagsPost" type="text" class="form-control" required="required" [(ngModel)]="postUpdateModel.tagsPost" id="title" placeholder="Etiquetas">
-            </div>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="editar()">Editar</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="eliminar()">Eliminar</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiar()">Cerrar</button>
-        </div>
+          </div>
+          <div class="form-group">
+            <h4>Descripcion</h4>
+            <angular-editor name="descriptionPost" [(ngModel)]="postModel.descriptionPost" [config]="config"></angular-editor>
+          </div>
+          <div class="form-group">
+            <h4>Fecha</h4>
+            <input name="datePost" type="datetime-local" class="form-control" required="required" [(ngModel)]="postModel.datePost" id="title">
+          </div>
+          <div class="form-group">
+            <h4>Tags</h4>
+            <label for="">Separa las etiquetas por una coma ","</label>
+            <input name="tagsPost" type="text" class="form-control" required="required" [(ngModel)]="postModel.tagsPost" id="title" placeholder="Etiquetas">
+          </div>
+      </form>
       </div>
-    </div>
-  </div>
