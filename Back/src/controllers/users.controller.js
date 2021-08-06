@@ -22,8 +22,7 @@ function register(req, res){
     var params = req.body;
 
     //It checks if there is a token, and if there is, it checks that it is ADMIN to be able to integrate a role.
-    req.user.rolUser != "ADMIN"?delete req.user.rolUser:null;
-    
+
     if(
         params.nickUser &&
         params.emailUser &&
