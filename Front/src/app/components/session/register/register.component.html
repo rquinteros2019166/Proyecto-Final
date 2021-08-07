@@ -1,16 +1,44 @@
 <app-navbar class="headerI"></app-navbar>
-<div class="container contenedorForm">
-  <form class="formulario">
-    <h1>Registrar</h1>
-    <div class="form-group">
-      <input type="name" class="form-control" name="nickUser" placeholder="name" required="required" [(ngModel)]="userModel.nickUser"/>
-    </div>
-    <div class="form-group">
-      <input type="email" class="form-control" name="emailUser" placeholder="Email" required="required" [(ngModel)]='userModel.emailUser'/>
-    </div>
-    <div class="form-group">
-      <input type="password" class="form-control" name="passwordUser" placeholder="Password" required="required" [(ngModel)]='userModel.passwordUser' />
-    </div>
-    <button class="btn btn-dark" (click)="register()" >Crear cuenta</button>
-  </form>
+<body>
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+
+          <div class="row">
+              <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+              <div class="col-lg-7">
+                  <div class="p-5">
+                      <div class="text-center">
+                          <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                      </div>
+                      <div class="user">
+                          <div class="form-group row">
+                              <div class="col-sm-6 mb-3 mb-sm-0">
+                                  <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="User name" required="required" [(ngModel)]="userModel.nickUser">
+                              </div>
+                              <div class="col-sm-6">
+                                  <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Full name" required="required" [(ngModel)]="userModel.fullNameUser" >
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address" required="required" [(ngModel)]="userModel.emailUser">
+                          </div>
+                          <div class="form-group row">
+                              <div class="col-sm-6 mb-3 mb-sm-0">
+                                  <input type="password" class="form-control form-control-user"  id="exampleInputPassword" placeholder="Password" required="required" [(ngModel)]="userModel.passwordUser">
+                              </div>
+                          </div>
+                          <a  class="btn btn-primary btn-user btn-block" (click)="register()">Crear cuenta</a>
+                          <hr>
+                        </div>
+                      <hr>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
 </div>
+
+</body>
