@@ -1,0 +1,36 @@
+.postContainer{
+    height: 90vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    text-align: center;
+    padding-top: 30px;
+    .postContainer__img{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0px 30px;
+        img{
+            width: 100%;
+            border-radius: 20px;
+        }
+        p{
+            padding-top: 10px;
+        }
+    }
+    .postContainer__description{
+        h4{
+            font-size: 2.5em;
+            color: #333;
+            margin-top: 30px;
+        }
+        hr{
+            margin: 0px 80px;
+        }
+        article{
+            padding-top: 30px;
+        }
+    }
+    
+}

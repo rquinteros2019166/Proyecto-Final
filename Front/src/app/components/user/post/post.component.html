@@ -1,8 +1,17 @@
 <app-navbar *ngIf="user.rolUser == 'DEFAULT'"></app-navbar>
 <app-admin-header *ngIf="user.rolUser == 'ADMIN'"></app-admin-header>
 <app-user-header *ngIf="user.rolUser == 'CLIENT'"></app-user-header>
-<div class="container">
-    <h1>{{postModel.titlePost}}</h1><label>{{postModel.datePost}}</label>
+<div class="postContainer">
+    <div class="postContainer__img">
+        <img [src]="postModel.imagePost" alt="">
+        <p class="text-muted">{{postModel.datePost | date}}</p>
+    </div>
+    <div class="postContainer__description">
+        <h4>{{postModel.titlePost}}</h4>
+        <hr>
+        <article [innerHTML]='postModel.descriptionPost'></article>    
+    </div>
+    <!-- <h1>{{postModel.titlePost}}</h1><label>{{postModel.datePost}}</label>
     <p [innerHTML]='postModel.descriptionPost'></p>
-    <b>{{postModel.tagsPost}}</b>
+    <b>{{postModel.tagsPost}}</b> -->
 </div>
