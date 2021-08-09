@@ -25,17 +25,57 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  <h4 class="dividerTitle">Our Posts</h4>
-  <div class="marketingContainer">
-    
-    <div class="marketingContainer__card" *ngFor="let post of postsModel">
-      <img [src]="post.imagePost" alt="">
-      <h4>{{post.titlePost}}</h4> <span class="text-muted">{{post.datePost | date}}</span>
-      <article>
-        <!-- {{post.descriptionPost | slice: 0:10}} -->
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, alias.
-      </article>
-      <button [routerLink]="['/post/', post._id]">See Details</button>
+  <div style="padding: 30px 0;">
+    <h4 class="dividerTitle">Tipos de Eventos</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card mb-1" style="height: 225px;">
+            <img class="imgType" src="https://www.hola.com/imagenes/novias/20200428166744/como-seran-bodas-despues-coronavirus/0-816-905/bodas-poscovid-1t-t.jpg" alt="">
+            <div class="card-body">
+              <h4>Presentaciones</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card mb-1" style="height: 225px;">
+            <img class="imgType" src="https://iili.io/RzvNOQ.md.jpg" alt="">
+            <div class="card-body">
+              <h4>Conciertos</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card mb-1" style="height: 225px;">
+            <img class="imgType" src="https://iili.io/RzvjJj.jpg" alt="">
+            <div class="card-body">
+              <h4>Lanzamientos</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card mb-1" style="height: 225px;">
+            <img class="imgType" src="https://iili.io/RzvW0u.jpg" alt="">
+            <div class="card-body">
+              <h4>Exposiciones</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div style="padding: 30px 0;">
+    <h4 class="dividerTitle">Publicaciones</h4>
+    <div class="marketingContainer">
+      <div class="marketingContainer__card" *ngFor="let post of postsModel" [routerLink]="['/post/', post._id]">
+        <img [src]="post.imagePost" alt="">
+        <h4>{{post.titlePost}}</h4> <span class="text-muted">{{post.datePost | date}}</span>
+        <!--<article>
+          {{post.descriptionPost | slice: 0:10}} 
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, alias.
+        </article>-->
+      </div>
     </div>
   </div>
 </div>

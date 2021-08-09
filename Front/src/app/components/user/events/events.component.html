@@ -46,7 +46,40 @@
   </div>
 </div>
 <div class="contentTable">
-  <table class="table table-hover">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3" *ngFor="let dt of tableEvents" (click)="get(dt._id)" data-toggle="modal" data-target="#view">
+        <div class="card mb-1" style="height: 100px;">
+          <div class="card-body">
+            <h5 class="card-title">{{dt.nameEvent}}</h5>
+            <small class="text-muted">{{dt.dateEvent}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 100%;">
+      <div class="modal-content" style="width: 90%; margin: 0 auto;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Añadir Publicación</h5>
+          <button type="button" class="close" (click)="limpiar()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h1>{{viewEvent.nameEvent}}</h1>
+          <small class="text-muted">{{viewEvent.dateEvent}}</small>
+          <h6>Tipo: {{viewEvent.typeEvent}}</h6>
+          <p>{{viewEvent.descriptionEvent}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiar()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Nombre del evento</th>
@@ -63,5 +96,5 @@
       <td>{{dt.nameEvent}}</td>
       </tr>
     </tbody>
-  </table>
+  </table>-->
 </div>

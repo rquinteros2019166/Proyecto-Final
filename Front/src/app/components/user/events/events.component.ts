@@ -16,6 +16,13 @@ export class EventsComponent implements OnInit {
   public user: any;
   tableEvents: any[];
   events: any[] = [];
+  public viewEvent:any = {
+      _id: "",
+      nameEvent: "",
+      descriptionEvent: "",
+      typeEvent: "",
+      dateEvent: new Date(Date.now()).toISOString().substr(0, 16)
+  };
 
   constructor(
     public  _eventService: EventService,
@@ -27,12 +34,21 @@ export class EventsComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem("identity"));
     this.token = this._userService.getToken();
     this.modelEvent = new Events('','','','','','','')
+    this.obtenerEvent();
 
   }
 
 
   ngOnInit(): void {
-    this.obtenerEvent();
+  }
+
+  get(id){
+    var encontrado = false;
+    for (let i = 0; i < this.tableEvents.length && encontrado == false; i++) {
+      if(this.tableEvents[i]._id == id){
+        this.viewEvent = this.tableEvents[i];
+      }
+    }
   }
 
 addEvent(){
@@ -84,19 +100,19 @@ obtenerEvent(){
   let useriD = JSON.parse(localStorage.getItem('identity'))._id;
   this._eventService.getEventId(useriD).subscribe(response =>{
     var array =[];
-    this.events = response.data;
-    console.log(this.events);
-    /* response.data.forEach(element =>{
+   
+    response.data.forEach(element =>{
       var tableEvents = {
-        _id: element.id,
+        _id: element._id,
         nameEvent: element.nameEvent,
         descriptionEvent: element.descriptionEvent,
         typeEvent: element.typeEvent,
-        dateEvent: new Date(element.datePost).toISOString().substr(0, 16)
+        dateEvent: new Date(element.dateEvent).toISOString().substr(0, 16)
       }
       array.push(tableEvents);
     });
-    this.tableEvents = array; */
+
+    this.tableEvents = array; 
   }, error => {
     console.log(error);
   });
