@@ -49,10 +49,11 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3" *ngFor="let dt of tableEvents" (click)="get(dt._id)" data-toggle="modal" data-target="#view">
-        <div class="card mb-1" style="height: 100px;">
+        <div class="card mb-1" style="height: 110px;">
           <div class="card-body">
             <h5 class="card-title">{{dt.nameEvent}}</h5>
             <small class="text-muted">{{dt.dateEvent}}</small>
+            <p>{{dt.statusEvent}}</p>
           </div>
         </div>
       </div>

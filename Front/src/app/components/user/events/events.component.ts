@@ -21,6 +21,7 @@ export class EventsComponent implements OnInit {
       nameEvent: "",
       descriptionEvent: "",
       typeEvent: "",
+      statusEvent: "",
       dateEvent: new Date(Date.now()).toISOString().substr(0, 16)
   };
 
@@ -106,6 +107,7 @@ obtenerEvent(){
         _id: element._id,
         nameEvent: element.nameEvent,
         descriptionEvent: element.descriptionEvent,
+        statusEvent: element.statusEvent,
         typeEvent: element.typeEvent,
         dateEvent: new Date(element.dateEvent).toISOString().substr(0, 16)
       }
