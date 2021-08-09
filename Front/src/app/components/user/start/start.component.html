@@ -1,4 +1,5 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<div class="dobleBody">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -23,17 +24,18 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
-</div>
-<h4 class="dividerTitle">Our Posts</h4>
-<div class="marketingContainer">
-  
+  </div>
+  <h4 class="dividerTitle">Our Posts</h4>
+  <div class="marketingContainer">
+    
     <div class="marketingContainer__card" *ngFor="let post of postsModel">
-        <img [src]="post.imagePost" alt="">
-        <h4>{{post.titlePost}}</h4> <span class="text-muted">{{post.datePost | date}}</span>
-        <article>
-            <!-- {{post.descriptionPost | slice: 0:10}} -->
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, alias.
-        </article>
-        <button [routerLink]="['/post/', post._id]">See Details</button>
+      <img [src]="post.imagePost" alt="">
+      <h4>{{post.titlePost}}</h4> <span class="text-muted">{{post.datePost | date}}</span>
+      <article>
+        <!-- {{post.descriptionPost | slice: 0:10}} -->
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, alias.
+      </article>
+      <button [routerLink]="['/post/', post._id]">See Details</button>
     </div>
+  </div>
 </div>
